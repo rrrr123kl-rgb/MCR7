@@ -3,229 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MCR7 - SPORT LIVE | محمد جواد</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>MCR7 - ULTRA SPORT | إشراف: محمد جواد</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #05050a;
-            --card-bg: rgba(18, 18, 35, 0.7);
-            --text-color: #ffffff;
-            --neon-cyan: #00f3ff;
+            --bg: #030712;
+            --surface: rgba(15, 23, 42, 0.75);
+            --border: rgba(56, 189, 248, 0.2);
+            --neon-blue: #00f0ff;
             --neon-pink: #ff0055;
-            --neon-green: #00ff66;
-            --border-glow: 0 0 15px rgba(0, 243, 255, 0.4);
+            --neon-green: #10b981;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
         }
-        
+
         [data-theme="light"] {
-            --bg-color: #f0f2f5;
-            --card-bg: rgba(255, 255, 255, 0.85);
-            --text-color: #1a1a1a;
-            --neon-cyan: #0077ff;
-            --neon-pink: #d90036;
-            --neon-green: #008f39;
-            --border-glow: 0 0 15px rgba(0, 119, 255, 0.3);
+            --bg: #f8fafc;
+            --surface: rgba(255, 255, 255, 0.85);
+            --border: rgba(0, 119, 255, 0.2);
+            --neon-blue: #0284c7;
+            --neon-pink: #e11d48;
+            --neon-green: #059669;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: background 0.3s, color 0.3s, border 0.3s;
         }
 
         body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
             margin: 0;
             padding: 20px;
-            transition: all 0.4s ease;
-            overflow-x: hidden;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 85, 0.05) 0%, transparent 40%);
         }
 
         .container {
-            max-width: 900px;
+            max-width: 950px;
             margin: 0 auto;
         }
 
-        /* رأس الصفحة بتصميم نيون فخم */
-        .header {
+        .hero-header {
+            background: var(--surface);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 2px solid var(--neon-cyan);
-            box-shadow: var(--border-glow);
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 35px;
+            position: relative;
+            overflow: hidden;
         }
 
-        h1 {
+        .hero-header::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; width: 4px; height: 100%;
+            background: linear-gradient(to bottom, var(--neon-blue), var(--neon-pink));
+        }
+
+        .logo-area h1 {
             margin: 0;
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 900;
-            color: var(--neon-cyan);
-            text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
             letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--text-main));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .dev-tag {
+        .developer-tag {
             font-size: 13px;
             color: var(--neon-pink);
-            text-shadow: 0 0 8px var(--neon-pink);
-            font-weight: bold;
-            margin-top: 4px;
+            font-weight: 700;
+            margin-top: 5px;
+            text-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
         }
 
-        .theme-btn {
+        .theme-toggle {
             background: transparent;
-            color: var(--text-color);
-            border: 2px solid var(--neon-pink);
-            box-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
+            border: 2px solid var(--border);
+            color: var(--text-main);
             padding: 8px 16px;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
+            font-weight: 700;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .theme-toggle:hover {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
         }
 
-        .theme-btn:hover {
-            background: var(--neon-pink);
-            color: #fff;
-            box-shadow: 0 0 20px var(--neon-pink);
-        }
-
-        h2 {
-            color: var(--neon-cyan);
-            border-bottom: 2px dashed var(--neon-cyan);
-            padding-bottom: 8px;
-            margin-top: 40px;
-            text-shadow: 0 0 8px rgba(0, 243, 255, 0.5);
-        }
-
-        /* البطاقات بنظام الزجاج والنيون */
-        .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 18px;
-            margin: 15px 0;
-            border-radius: 14px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--neon-blue);
+            margin: 35px 0 20px 0;
             display: flex;
-            flex-direction: column;
-            gap: 12px;
-            transition: transform 0.3s, border-color 0.3s;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
         }
 
-        .card:hover {
-            border-color: var(--neon-cyan);
-            box-shadow: var(--border-glow);
-            transform: translateY(-3px);
+        .grid-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
         }
 
-        .card-row {
+        .match-card {
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
         }
 
-        .controls {
+        .match-card:hover {
+            border-color: var(--neon-blue);
+            box-shadow: 0 8px 30px rgba(0, 240, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .match-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .live-pulse {
+            width: 12px;
+            height: 12px;
+            background-color: var(--neon-pink);
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(255, 0, 85, 0.7);
+            animation: pulse 1.6s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 85, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 0, 85, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 85, 0); }
+        }
+
+        .match-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .actions {
             display: flex;
             gap: 10px;
-            flex-wrap: wrap;
         }
 
-        .btn {
-            background: linear-gradient(135deg, var(--neon-green), #00aa44);
-            color: #000;
-            padding: 8px 16px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
+        .btn-action {
+            background: linear-gradient(135deg, var(--neon-green), #047857);
+            color: #fff;
             border: none;
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-family: 'Tajawal', sans-serif;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(0, 255, 102, 0.4);
-            transition: 0.3s;
+            text-decoration: none;
+            font-size: 13px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
-
-        .btn:hover {
-            box-shadow: 0 0 20px var(--neon-green);
-            transform: scale(1.05);
+        .btn-action:hover {
+            filter: brightness(1.1);
+            transform: scale(1.03);
         }
 
         .btn-external {
-            background: linear-gradient(135deg, #7c3aed, #4f46e5);
-            color: #fff;
-            box-shadow: 0 0 10px rgba(124, 58, 237, 0.4);
-        }
-        .btn-external:hover {
-            box-shadow: 0 0 20px #7c3aed;
+            background: linear-gradient(135deg, #6366f1, #4338ca);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
 
-        /* مشغل الفيديو الداخلي الفخم */
         #player-container {
             display: none;
-            border: 2px solid var(--neon-cyan);
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
-            margin-top: 30px;
+            background: var(--surface);
+            border: 2px solid var(--neon-blue);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 40px;
+            box-shadow: 0 10px 40px rgba(0, 240, 255, 0.25);
+        }
+
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .player-title {
+            color: var(--neon-blue);
+            font-weight: 800;
+            font-size: 18px;
+            margin: 0;
         }
 
         video {
             width: 100%;
-            max-height: 450px;
+            max-height: 480px;
             background: #000;
-            border-radius: 8px;
-            margin-top: 10px;
+            border-radius: 12px;
+            outline: none;
         }
 
-        .close-btn {
-            background: linear-gradient(135deg, var(--neon-pink), #cc0044);
+        .btn-close {
+            background: var(--neon-pink);
             color: white;
-            width: 100%;
-            margin-top: 10px;
-            box-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
+            border: none;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
         }
-        .close-btn:hover {
-            box-shadow: 0 0 20px var(--neon-pink);
+
+        .empty-msg {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 25px;
+            background: var(--surface);
+            border-radius: 14px;
+            border: 1px dashed var(--border);
         }
     </style>
-    <!-- مكتبة تشغيل الـ m3u8 -->
+    <!-- مكتبة تشغيل الـ m3u8 والـ ts -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body data-theme="dark">
 
     <script>
-        // التحقق الأمني بالرمز الثابت
-        let pwd = prompt("🔒 أدخل رمز الدخول للموقع:");
+        let pwd = prompt("🔐 أدخل رمز الدخول للموقع:");
         if (pwd !== "2002") {
             alert("❌ رمز الدخول غير صحيح!");
-            document.body.innerHTML = "<h2 style='text-align:center; margin-top:200px; color:#ff0055; text-shadow:0 0 15px #ff0055;'>رمز الدخول غير صحيح! يرجى إعادة التحميل.</h2>";
+            document.body.innerHTML = "<div style='text-align:center; margin-top:200px; color:#ff0055; font-family:Tajawal; font-size:22px; font-weight:bold;'>رمز الدخول غير صحيح! يرجى إعادة تحميل الصفحة.</div>";
             throw new Error("Access Denied");
         }
     </script>
 
     <div class="container">
-        <div class="header">
-            <div>
-                <h1>⚡ SPORT LIVE ⚡</h1>
-                <div class="dev-tag">إشراف وتطوير: محمد جواد</div>
+        <div class="hero-header">
+            <div class="logo-area">
+                <h1>⚡ MCR7 ULTRA LIVE</h1>
+                <div class="developer-tag">إشراف وتطوير: محمد جواد 👑</div>
             </div>
-            <button class="theme-btn" onclick="toggleTheme()">🌓 وضع الإضاءة</button>
+            <button class="theme-toggle" onclick="toggleTheme()">🌓 وضع الإضاءة</button>
         </div>
-        
-        <h2>⚽ المباريات الحالية</h2>
-        <div id="matches">جاري استدعاء المباريات من السيفر...</div>
 
-        <h2>📺 القنوات المباشرة</h2>
-        <div id="channels">جاري استدعاء القنوات من السيفر...</div>
+        <div class="section-title">⚽ جدول المباريات المباشرة</div>
+        <div id="matches" class="grid-cards">
+            <div class="empty-msg">جاري تحميل المباريات بأعلى جودة...</div>
+        </div>
 
-        <!-- مشغل البث الداخلي المتطور -->
-        <div class="card" id="player-container">
-            <h3 id="player-title" style="margin:0; color:var(--neon-cyan);">مشغل البث المباشر</h3>
+        <div class="section-title">📺 القنوات الفضائية والرياضية</div>
+        <div id="channels" class="grid-cards">
+            <div class="empty-msg">جاري تحميل القنوات...</div>
+        </div>
+
+        <div id="player-container">
+            <div class="player-header">
+                <h3 id="player-title" class="player-title">مشغل البث</h3>
+                <button class="btn-close" onclick="closePlayer()">إغلاق ✕</button>
+            </div>
             <video id="video-player" controls autoplay></video>
-            <button class="btn close-btn" onclick="closePlayer()">إغلاق المشغل ✕</button>
         </div>
     </div>
 
     <script>
-        // تبديل الوضع الليلي والنهاري بنين
         function toggleTheme() {
             const body = document.body;
             if (body.getAttribute("data-theme") === "dark") {
@@ -235,17 +305,17 @@
             }
         }
 
-        // تشغيل البث (دعم m3u8 والروابط)
         function playStream(url, title) {
             const container = document.getElementById('player-container');
             const video = document.getElementById('video-player');
             const titleElem = document.getElementById('player-title');
             
-            container.style.display = 'flex';
+            container.style.display = 'block';
             titleElem.innerText = "📺 " + title;
             window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
 
-            if (url.includes('.m3u8')) {
+            // دعم روابط m3u8 و ts بشكل مباشر
+            if (url.includes('.m3u8') || url.includes('.ts')) {
                 if (Hls.isSupported()) {
                     const hls = new Hls();
                     hls.loadSource(url);
@@ -253,7 +323,7 @@
                     hls.on(Hls.Events.MANIFEST_PARSED, function() {
                         video.play();
                     });
-                } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                } else if (video.canPlayType('application/vnd.apple.mpegurl') || video.canPlayType('video/mp2t')) {
                     video.src = url;
                     video.addEventListener('loadedmetadata', function() {
                         video.play();
@@ -272,57 +342,59 @@
             container.style.display = 'none';
         }
 
-        // جلب المباريات
         fetch('matches.json')
             .then(res => res.json())
             .then(data => {
                 let output = '';
-                if(!data || data.length === 0) { output = '<p style="text-align:center;">لا توجد مباريات مضافة حالياً</p>'; }
-                else {
+                if(!data || data.length === 0) { 
+                    output = '<div class="empty-msg">لا توجد مباريات مضافة حالياً</div>'; 
+                } else {
                     data.forEach(item => {
                         let link = item.link || item.url || '#';
                         let title = item.name || item.title || 'مباراة';
                         output += `
-                            <div class="card">
-                                <div class="card-row">
-                                    <span><strong>🔥 ${title}</strong></span>
-                                    <div class="controls">
-                                        <button class="btn" onclick="playStream('${link}', '${title}')">مشاهدة داخلية</button>
-                                        <a class="btn btn-external" href="${link}" target="_blank">رابط خارجي</a>
-                                    </div>
+                            <div class="match-card">
+                                <div class="match-info">
+                                    <div class="live-pulse"></div>
+                                    <span class="match-title">${title}</span>
+                                </div>
+                                <div class="actions">
+                                    <button class="btn-action" onclick="playStream('${link}', '${title}')">مشاهدة حية</button>
+                                    <a class="btn-action btn-external" href="${link}" target="_blank">رابط خارجي</a>
                                 </div>
                             </div>
                         `;
                     });
                 }
                 document.getElementById('matches').innerHTML = output;
-            }).catch(() => { document.getElementById('matches').innerHTML = '<p style="text-align:center;">خطأ في تحميل المباريات</p>'; });
+            }).catch(() => { document.getElementById('matches').innerHTML = '<div class="empty-msg">خطأ في تحميل المباريات</div>'; });
 
-        // جلب القنوات
         fetch('channels.json')
             .then(res => res.json())
             .then(data => {
                 let output = '';
-                if(!data || data.length === 0) { output = '<p style="text-align:center;">لا توجد قنوات مضافة حالياً</p>'; }
-                else {
+                if(!data || data.length === 0) { 
+                    output = '<div class="empty-msg">لا توجد قنوات مضافة حالياً</div>'; 
+                } else {
                     data.forEach(item => {
                         let link = item.link || item.url || '#';
                         let title = item.name || item.title || 'قناة';
                         output += `
-                            <div class="card">
-                                <div class="card-row">
-                                    <span><strong>📡 ${title}</strong></span>
-                                    <div class="controls">
-                                        <button class="btn" onclick="playStream('${link}', '${title}')">تشغيل القناة</button>
-                                        <a class="btn btn-external" href="${link}" target="_blank">فتح خارجي</a>
-                                    </div>
+                            <div class="match-card">
+                                <div class="match-info">
+                                    <div class="live-pulse" style="background-color: var(--neon-blue);"></div>
+                                    <span class="match-title">${title}</span>
+                                </div>
+                                <div class="actions">
+                                    <button class="btn-action" onclick="playStream('${link}', '${title}')">تشغيل القناة</button>
+                                    <a class="btn-action btn-external" href="${link}" target="_blank">رابط خارجي</a>
                                 </div>
                             </div>
                         `;
                     });
                 }
                 document.getElementById('channels').innerHTML = output;
-            }).catch(() => { document.getElementById('channels').innerHTML = '<p style="text-align:center;">خطأ في تحميل القنوات</p>'; });
+            }).catch(() => { document.getElementById('channels').innerHTML = '<div class="empty-msg">خطأ في تحميل القنوات</div>'; });
     </script>
 
 </body>
