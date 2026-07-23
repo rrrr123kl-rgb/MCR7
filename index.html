@@ -3,113 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سبورت لايف - SPORT LIVE</title>
+    <title>SPORT LIVE - لوحة العرض</title>
     <style>
         body {
-            font-family: Tahoma, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
+            font-family: 'Cairo', Tahoma, sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
             margin: 0;
             padding: 20px;
-            text-align: center;
-        }
-        h1 {
-            color: #00ffcc;
-            margin-bottom: 30px;
         }
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
-            background: #1e1e1e;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
-        .section {
-            margin-bottom: 25px;
+        h1, h2 {
+            text-align: center;
+            color: #38bdf8;
         }
-        h3 {
-            border-bottom: 2px solid #00ffcc;
-            padding-bottom: 5px;
-            color: #ffcc00;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        li {
-            background: #2a2a2a;
-            margin: 10px 0;
-            padding: 12px;
-            border-radius: 5px;
+        .card {
+            background: #1e293b;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        a.btn {
-            background: #00ffcc;
-            color: #121212;
-            padding: 6px 14px;
-            border-radius: 4px;
+        .btn {
+            background: #22c55e;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
             text-decoration: none;
             font-weight: bold;
         }
-        a.btn:hover {
-            background: #00b386;
+        .btn:hover {
+            background: #16a34a;
         }
     </style>
 </head>
 <body>
 
     <script>
-        // التحقق من رمز الدخول الثابت
-        let password = prompt("أدخل رمز الدخول للموقع:");
-        if (password !== "2002") {
+        // التحقق من الرمز الثابت
+        let pwd = prompt("أدخل رمز الدخول للموقع:");
+        if (pwd !== "2002") {
             alert("رمز الدخول غير صحيح!");
-            document.body.innerHTML = "<h2 style='text-align:center; margin-top:100px; color:#ff4444;'>رمز الدخول غير صحيح! يرجى إعادة تحميل الصفحة والمحاولة مرة أخرى.</h2>";
-            throw new Error("Unauthorized");
+            document.body.innerHTML = "<h2 style='text-align:center; margin-top:150px; color:#ef4444;'>رمز الدخول غير صحيح! يرجى إعادة التحميل.</h2>";
+            throw new Error("Access Denied");
         }
     </script>
 
     <div class="container">
-        <h1>SPORT LIVE - سبورت لايف</h1>
+        <h1>SPORT LIVE</h1>
+        
+        <h2>المباريات</h2>
+        <div id="matches">جاري تحميل المباريات...</div>
 
-        <div class="section">
-            <h3>المباريات الحالية</h3>
-            <div id="matches-list">جاري تحميل المباريات...</div>
-        </div>
-
-        <div class="section">
-            <h3>القنوات المباشرة</h3>
-            <div id="channels-list">جاري تحميل القنوات...</div>
-        </div>
+        <h2>القنوات</h2>
+        <div id="channels">جاري تحميل القنوات...</div>
     </div>
 
     <script>
-        // جلب البيانات من ملفات الـ JSON تلقائياً
+        // جلب البيانات من ملفات JSON المتوافقة مع تصميمك القديم
         fetch('matches.json')
             .then(res => res.json())
             .then(data => {
-                let html = '<ul>';
-                data.forEach(match => {
-                    html += `<li><span>${match.name}</span> <a class="btn" href="${match.link}" target="_blank">مشاهدة</a></li>`;
+                let output = '';
+                if(data.length === 0) { output = '<p style="text-align:center;">لا توجد مباريات حالياً</p>'; }
+                data.forEach(item => {
+                    output += `
+                        <div class="card">
+                            <span><strong>${item.name || item.title || 'مباراة'}</strong></span>
+                            <a class="btn" href="${item.link}" target="_blank">مشاهدة</a>
+                        </div>
+                    `;
                 });
-                html += '</ul>';
-                document.getElementById('matches-list').innerHTML = html;
-            })
-            .catch(() => { document.getElementById('matches-list').innerHTML = "لا توجد مباريات مضافة حالياً."; });
+                document.getElementById('matches').innerHTML = output;
+            }).catch(() => { document.getElementById('matches').innerHTML = '<p style="text-align:center;">خطأ في تحميل المباريات</p>'; });
 
         fetch('channels.json')
             .then(res => res.json())
             .then(data => {
-                let html = '<ul>';
-                data.forEach(channel => {
-                    html += `<li><span>${channel.name}</span> <a class="btn" href="${channel.link}" target="_blank">فتح القناة</a></li>`;
+                let output = '';
+                if(data.length === 0) { output = '<p style="text-align:center;">لا توجد قنوات حالياً</p>'; }
+                data.forEach(item => {
+                    output += `
+                        <div class="card">
+                            <span><strong>${item.name || item.title || 'قناة'}</strong></span>
+                            <a class="btn" href="${item.link}" target="_blank">فتح القناة</a>
+                        </div>
+                    `;
                 });
-                html += '</ul>';
-                document.getElementById('channels-list').innerHTML = html;
-            })
-            .catch(() => { document.getElementById('channels-list').innerHTML = "لا توجد قنوات مضافة حالياً."; });
+                document.getElementById('channels').innerHTML = output;
+            }).catch(() => { document.getElementById('channels').innerHTML = '<p style="text-align:center;">خطأ في تحميل القنوات</p>'; });
     </script>
 
 </body>
