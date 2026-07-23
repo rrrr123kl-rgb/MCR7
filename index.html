@@ -32,7 +32,7 @@
 
         * {
             box-sizing: border-box;
-            transition: background 0.3s, color 0.3s, border 0.3s;
+            transition: background 0.3s ease, color 0.3s ease, border 0.3s ease, transform 0.2s ease;
         }
 
         body {
@@ -47,13 +47,10 @@
                 radial-gradient(circle at 90% 80%, rgba(255, 0, 85, 0.06) 0%, transparent 40%);
         }
 
-        /* واجهة إدخال الرمز الاحترافية الفخمة */
+        /* واجهة إدخال الرمز الاحترافية */
         #auth-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(3, 7, 18, 0.92);
             backdrop-filter: blur(20px);
             z-index: 9999;
@@ -72,7 +69,7 @@
             width: 100%;
             max-width: 420px;
             text-align: center;
-            animation: fadeInScale 0.5s ease-out;
+            animation: fadeInScale 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         @keyframes fadeInScale {
@@ -80,25 +77,10 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        .auth-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
-            text-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
-        }
-
-        .auth-title {
-            color: var(--neon-blue);
-            font-size: 24px;
-            font-weight: 900;
-            margin-bottom: 8px;
-        }
-
-        .auth-subtitle {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
-
+        .auth-icon { font-size: 50px; margin-bottom: 15px; text-shadow: 0 0 20px rgba(0, 240, 255, 0.5); }
+        .auth-title { color: var(--neon-blue); font-size: 24px; font-weight: 900; margin-bottom: 8px; }
+        .auth-subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 25px; }
+        
         .auth-input {
             width: 100%;
             background: rgba(0, 0, 0, 0.4);
@@ -113,11 +95,7 @@
             margin-bottom: 20px;
             outline: none;
         }
-
-        .auth-input:focus {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
-        }
+        .auth-input:focus { border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
 
         .auth-btn {
             background: linear-gradient(135deg, var(--neon-blue), #0284c7);
@@ -132,12 +110,7 @@
             font-family: 'Tajawal', sans-serif;
             box-shadow: 0 4px 20px rgba(0, 240, 255, 0.4);
         }
-
-        .auth-btn:hover {
-            filter: brightness(1.1);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(0, 240, 255, 0.6);
-        }
+        .auth-btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
 
         .auth-error {
             color: var(--neon-pink);
@@ -148,11 +121,7 @@
             text-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
         }
 
-        /* المحتوى الرئيسي للموقع */
-        .container {
-            max-width: 950px;
-            margin: 0 auto;
-        }
+        .container { max-width: 950px; margin: 0 auto; }
 
         .hero-header {
             background: var(--surface);
@@ -180,7 +149,6 @@
             margin: 0;
             font-size: 28px;
             font-weight: 900;
-            letter-spacing: 1px;
             background: linear-gradient(135deg, var(--neon-blue), var(--text-main));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -204,18 +172,16 @@
             font-weight: 700;
             font-family: 'Tajawal', sans-serif;
         }
-        .theme-toggle:hover {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
-        }
+        .theme-toggle:hover { border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(0, 240, 255, 0.2); }
 
+        /* 1. شاشة العرض (فوق) */
         #player-section {
             background: var(--surface);
             backdrop-filter: blur(16px);
             border: 2px solid var(--neon-blue);
             border-radius: 20px;
             padding: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             box-shadow: 0 10px 40px rgba(0, 240, 255, 0.2);
         }
 
@@ -235,7 +201,7 @@
 
         .player-placeholder {
             text-align: center;
-            padding: 50px 20px;
+            padding: 45px 20px;
             color: var(--text-muted);
             border: 2px dashed var(--border);
             border-radius: 12px;
@@ -243,22 +209,7 @@
             font-weight: bold;
         }
 
-        .section-title {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--neon-blue);
-            margin: 30px 0 15px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
-
+        /* 2. قسم التوقيت والساعة */
         .timing-box {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -271,21 +222,22 @@
             flex-wrap: wrap;
             gap: 15px;
         }
-        .timing-item {
-            text-align: center;
-        }
-        .timing-label {
-            font-size: 12px;
-            color: var(--text-muted);
-            font-weight: bold;
-        }
-        .timing-value {
-            font-size: 16px;
-            color: var(--neon-yellow);
-            font-weight: 900;
-            margin-top: 3px;
-        }
+        .timing-item { text-align: center; }
+        .timing-label { font-size: 12px; color: var(--text-muted); font-weight: bold; }
+        .timing-value { font-size: 16px; color: var(--neon-yellow); font-weight: 900; margin-top: 3px; }
 
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--neon-blue);
+            margin: 30px 0 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+        /* 3. قسم القنوات */
         .grid-cards {
             display: grid;
             grid-template-columns: 1fr;
@@ -297,7 +249,7 @@
             backdrop-filter: blur(12px);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 18px 20px;
+            padding: 16px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -310,58 +262,44 @@
             transform: translateY(-2px);
         }
 
-        .match-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        .match-info { display: flex; align-items: center; gap: 15px; }
 
         .live-pulse {
-            width: 12px;
-            height: 12px;
-            background-color: var(--neon-pink);
+            width: 12px; height: 12px;
+            background-color: var(--neon-blue);
             border-radius: 50%;
-            box-shadow: 0 0 0 0 rgba(255, 0, 85, 0.7);
+            box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.7);
             animation: pulse 1.6s infinite;
         }
 
         @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 85, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 0, 85, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 85, 0); }
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 240, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 240, 255, 0); }
         }
 
-        .match-title {
-            font-size: 17px;
-            font-weight: 700;
-            color: var(--text-main);
-        }
+        .match-title { font-size: 17px; font-weight: 700; color: var(--text-main); }
 
-        .actions {
-            display: flex;
-            gap: 10px;
-        }
+        .actions { display: flex; gap: 10px; }
 
         .btn-action {
-            background: linear-gradient(135deg, var(--neon-green), #047857);
-            color: #fff;
+            background: linear-gradient(135deg, var(--neon-blue), #0284c7);
+            color: #030712;
             border: none;
             padding: 8px 18px;
             border-radius: 10px;
-            font-weight: 700;
+            font-weight: 900;
             font-family: 'Tajawal', sans-serif;
             cursor: pointer;
             text-decoration: none;
             font-size: 13px;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 240, 255, 0.25);
         }
-        .btn-action:hover {
-            filter: brightness(1.1);
-            transform: scale(1.03);
-        }
+        .btn-action:hover { filter: brightness(1.1); transform: scale(1.03); }
 
         .btn-external {
             background: linear-gradient(135deg, #6366f1, #4338ca);
+            color: #fff;
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
 
@@ -378,15 +316,15 @@
 </head>
 <body data-theme="dark">
 
-    <!-- نافذة إدخال الرمز الاحترافية -->
+    <!-- نافذة الرمز -->
     <div id="auth-overlay">
         <div class="auth-card">
             <div class="auth-icon">🔒</div>
             <div class="auth-title">بوابة الدخول المحمية</div>
-            <div class="auth-subtitle">يرجى إدخال رمز المرور للمتابعة إلى الموقع</div>
+            <div class="auth-subtitle">يرجى إدخال رمز المرور للمتابعة</div>
             <input type="password" id="auth-code-input" class="auth-input" placeholder="••••" maxlength="6">
             <button class="auth-btn" onclick="verifyCode()">دخول آمن ⚡</button>
-            <div id="auth-error-msg" class="auth-error">❌ رمز المرور غير صحيح، حاول مرة أخرى!</div>
+            <div id="auth-error-msg" class="auth-error">❌ رمز المرور غير صحيح!</div>
         </div>
     </div>
 
@@ -400,25 +338,25 @@
             <button class="theme-toggle" onclick="toggleTheme()">🌓 وضع الإضاءة</button>
         </div>
 
-        <!-- 1. شاشة العرض الرئيسية للأعلى -->
+        <!-- 1. شاشة العرض بالأعلى (تستقبل القناة عند اختيارها) -->
         <div id="player-section">
             <div class="player-header">
                 <h3 id="player-title" class="player-title">📺 شاشة العرض المباشر</h3>
             </div>
             <div id="player-box">
-                <div class="player-placeholder">اختر مباراة أو قناة من الأسفل لتبدأ المشاهدة الفورية 🚀</div>
+                <div class="player-placeholder">👆 اختر أي قناة من الأسفل لتظهر هنا وجاهزيتها للتشغيل السلس 🚀</div>
             </div>
         </div>
 
-        <!-- 2. قسم توقيت المباريات -->
+        <!-- 2. قسم التوقيت -->
         <div class="timing-box">
             <div class="timing-item">
-                <div class="timing-label">توقيت البث الرسمي</div>
+                <div class="timing-label">توقيت النظام الرسمي</div>
                 <div class="timing-value" id="live-clock">--:--:--</div>
             </div>
             <div class="timing-item">
-                <div class="timing-label">حالة السيرفر</div>
-                <div class="timing-value" style="color: var(--neon-green);">متصل ونشط 🟢</div>
+                <div class="timing-label">حالة النظام</div>
+                <div class="timing-value" style="color: var(--neon-green);">جاهز وسلس 🟢</div>
             </div>
             <div class="timing-item">
                 <div class="timing-label">وضع التشغيل</div>
@@ -426,122 +364,88 @@
             </div>
         </div>
 
-        <!-- 3. جدول المباريات -->
-        <div class="section-title">⚽ جدول المباريات الحية</div>
-        <div id="matches" class="grid-cards">
-            <div class="empty-msg">جاري تحميل المباريات...</div>
-        </div>
-
-        <!-- 4. قسم القنوات -->
-        <div class="section-title">📺 القنوات الفضائية والرياضية</div>
+        <!-- 3. قسم القنوات (تم إلغاء جدول المباريات) -->
+        <div class="section-title">📺 قنوات البث الفضائي المباشر</div>
         <div id="channels" class="grid-cards">
             <div class="empty-msg">جاري تحميل القنوات...</div>
         </div>
     </div>
 
     <script>
-        // دالة التحقق من الرمز بالنافذة الاحترافية
         function verifyCode() {
             const inputVal = document.getElementById('auth-code-input').value;
             const errorMsg = document.getElementById('auth-error-msg');
-            
             if (inputVal === "2002") {
                 const overlay = document.getElementById('auth-overlay');
                 overlay.style.opacity = '0';
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                }, 400);
+                setTimeout(() => { overlay.style.display = 'none'; }, 400);
             } else {
                 errorMsg.style.display = 'block';
                 document.getElementById('auth-code-input').value = '';
             }
         }
 
-        // دعم الضغط على زر Enter لإدخال الرمز بسرعة
         document.getElementById('auth-code-input').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                verifyCode();
-            }
+            if (e.key === 'Enter') verifyCode();
         });
 
-        // تحديث الساعة
         setInterval(() => {
-            const now = new Date();
-            document.getElementById('live-clock').innerText = now.toLocaleTimeString('ar-IQ');
+            document.getElementById('live-clock').innerText = new Date().toLocaleTimeString('ar-IQ');
         }, 1000);
 
         function toggleTheme() {
             const body = document.body;
-            if (body.getAttribute("data-theme") === "dark") {
-                body.setAttribute("data-theme", "light");
-            } else {
-                body.setAttribute("data-theme", "dark");
-            }
+            body.setAttribute("data-theme", body.getAttribute("data-theme") === "dark" ? "light" : "dark");
         }
 
-        function playStream(url, title) {
+        // الخطوة الأولى: النقر على القناة لتجهيزها في شاشة العرض فوق
+        function selectChannel(url, title) {
             const playerBox = document.getElementById('player-box');
             const titleElem = document.getElementById('player-title');
             
-            titleElem.innerText = "🔴 جاري عرض: " + title;
+            titleElem.innerText = "🎯 تم اختيار: " + title;
             window.scrollTo({top: 0, behavior: 'smooth'});
 
+            // عرض واجهة التجهيز في الشاشة العليا ليقوم المستخدم بتشغيلها
+            playerBox.innerHTML = `
+                <div style="text-align:center; padding: 35px; background: rgba(0,0,0,0.3); border-radius: 14px; border: 1px solid var(--border);">
+                    <p style="color:var(--neon-yellow); font-weight:bold; font-size:17px; margin-bottom:15px;">القناة جاهزة الآن: ${title}</p>
+                    <button class="btn-action" onclick="launchStream('${url}', '${title}')" style="padding: 12px 30px; font-size:16px; cursor:pointer;">▶ اضغط هنا لبدء التشغيل الفوري</button>
+                </div>
+            `;
+        }
+
+        // الخطوة الثانية: التشغيل الفعلي داخل الشاشة
+        function launchStream(url, title) {
+            const playerBox = document.getElementById('player-box');
+            const titleElem = document.getElementById('player-title');
+            
+            titleElem.innerText = "🔴 عرض مباشر: " + title;
+
             if (url.includes('.m3u8') || url.includes('.ts')) {
-                playerBox.innerHTML = `<video id="video-player" controls autoplay style="width:100%; max-height:480px; background:#000; border-radius:12px;"></video>`;
+                playerBox.innerHTML = `<video id="video-player" controls autoplay style="width:100%; max-height:480px; background:#000; border-radius:12px; outline:none;"></video>`;
                 const video = document.getElementById('video-player');
                 
                 if (Hls.isSupported()) {
                     const hls = new Hls();
                     hls.loadSource(url);
                     hls.attachMedia(video);
-                    hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                        video.play();
-                    });
+                    hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
                 } else if (video.canPlayType('application/vnd.apple.mpegurl') || video.canPlayType('video/mp2t')) {
                     video.src = url;
-                    video.addEventListener('loadedmetadata', function() {
-                        video.play();
-                    });
+                    video.addEventListener('loadedmetadata', () => video.play());
                 }
             } else {
                 playerBox.innerHTML = `
                     <div style="text-align:center; padding: 30px;">
-                        <p style="color:var(--text-main); font-weight:bold; margin-bottom:15px;">هذا الرابط يتطلب فتح بصفحة مستقلة أو مشغل خارجي:</p>
-                        <a href="${url}" target="_blank" class="btn-action" style="padding: 12px 25px; font-size:16px; display:inline-block;">اضغط هنا لفتح الرابط مباشرة ↗</a>
+                        <p style="color:var(--text-main); font-weight:bold; margin-bottom:15px;">هذا الرابط يتطلب فتحاً خارجياً:</p>
+                        <a href="${url}" target="_blank" class="btn-action btn-external" style="padding: 12px 25px; font-size:16px; display:inline-block;">افتح الرابط بتبويب جديد ↗</a>
                     </div>
                 `;
             }
         }
 
-        // جلب المباريات
-        fetch('matches.json')
-            .then(res => res.json())
-            .then(data => {
-                let output = '';
-                if(!data || data.length === 0) { 
-                    output = '<div class="empty-msg">لا توجد مباريات مضافة حالياً</div>'; 
-                } else {
-                    data.forEach(item => {
-                        let link = item.link || item.url || '#';
-                        let title = item.name || item.title || 'مباراة';
-                        output += `
-                            <div class="match-card">
-                                <div class="match-info">
-                                    <div class="live-pulse"></div>
-                                    <span class="match-title">${title}</span>
-                                </div>
-                                <div class="actions">
-                                    <button class="btn-action" onclick="playStream('${link}', '${title}')">مشاهدة حية</button>
-                                    <a class="btn-action btn-external" href="${link}" target="_blank">رابط خارجي</a>
-                                </div>
-                            </div>
-                        `;
-                    });
-                }
-                document.getElementById('matches').innerHTML = output;
-            }).catch(() => { document.getElementById('matches').innerHTML = '<div class="empty-msg">خطأ في تحميل المباريات</div>'; });
-
-        // جلب القنوات
+        // جلب القنوات فقط
         fetch('channels.json')
             .then(res => res.json())
             .then(data => {
@@ -555,11 +459,11 @@
                         output += `
                             <div class="match-card">
                                 <div class="match-info">
-                                    <div class="live-pulse" style="background-color: var(--neon-blue);"></div>
+                                    <div class="live-pulse"></div>
                                     <span class="match-title">${title}</span>
                                 </div>
                                 <div class="actions">
-                                    <button class="btn-action" onclick="playStream('${link}', '${title}')">تشغيل القناة</button>
+                                    <button class="btn-action" onclick="selectChannel('${link}', '${title}')">اختيار للقناة</button>
                                     <a class="btn-action btn-external" href="${link}" target="_blank">رابط خارجي</a>
                                 </div>
                             </div>
@@ -572,3 +476,4 @@
 
 </body>
 </html>
+
