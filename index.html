@@ -1,1 +1,59 @@
-&lt;!DOCTYPE html&gt;<br/>&lt;html lang=&quot;ar&quot; dir=&quot;rtl&quot;&gt;<br/>&lt;head&gt;<br/>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br/>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br/>    &lt;title&gt;MCR7 - منصة البث المباشر&lt;/title&gt;<br/>    &lt;link href=&quot;https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;<br/>    &lt;style&gt;<br/>        :root {<br/>            --bg-color: #0b0f19;<br/>            --card-bg: #151f32;<br/>            --text-color: #f8fafc;<br/>            --accent-color: #00d26a;<br/>            --border-color: #233148;<br/>        }<br/><br/>        * {<br/>            box-sizing: border-box;<br/>            margin: 0;<br/>            padding: 0;<br/>            font-family: &#39;Tajawal&#39;, sans-serif;<br/>        }<br/><br/>        body {<br/>            background-color: var(--bg-color);<br/>            color: var(--text-color);<br/>            min-height: 100vh;<br/>            display: flex;<br/>            flex-direction: column;<br/>        }<br/><br/>        header {<br/>            padding: 1.2rem 2rem;<br/>            background: var(--card-bg);<br/>            display: flex;<br/>            justify-content: space-between;<br/>            align-items: center;<br/>            border-bottom: 1px solid var(--border-color);<br/>        }<br/><br/>        .logo {<br/>            font-size: 1.4rem;<br/>            font-weight: 900;<br/>            color: var(--accent-color);<br/>        }<br/><br/>        .container {<br/>            max-width: 1200px;<br/>            margin: 1.5rem auto;<br/>            padding: 0 1rem;<br/>            width: 100%;<br/>            flex: 1;<br/>        }<br/><br/>        .player-container {<br/>            background: #000;<br/>            border-radius: 18px;<br/>            overflow: hidden;<br/>            box-shadow: 0 15px 35px rgba(0,0,0,0.6);<br/>            margin-bottom: 1.5rem;<br/>            border: 1px solid var(--border-color);<br/>        }<br/><br/>        .player-wrapper {<br/>            position: relative;<br/>            padding-bottom: 56.25%;<br/>            height: 0;<br/>        }<br/><br/>        .player-wrapper iframe {<br/>            position: absolute;<br/>            top: 0; left: 0;<br/>            width: 100%; height: 100%;<br/>            border: none;<br/>        }<br/><br/>        .player-info {<br/>            background: var(--card-bg);<br/>            padding: 12px 20px;<br/>            font-weight: bold;<br/>            border-top: 1px solid var(--border-color);<br/>            display: flex;<br/>            align-items: center;<br/>            gap: 10px;<br/>        }<br/><br/>        .live-tag {<br/>            background: #e11d48;<br/>            color: white;<br/>            padding: 3px 10px;<br/>            border-radius: 6px;<br/>            font-size: 0.8rem;<br/>            animation: blink 1.5s infinite;<br/>        }<br/><br/>        @keyframes blink {<br/>            0% { opacity: 1; }<br/>            50% { opacity: 0.4; }<br/>            100% { opacity: 1; }<br/>        }<br/><br/>        .section-title {<br/>            margin-bottom: 1rem;<br/>            font-size: 1.1rem;<br/>            color: #94a3b8;<br/>        }<br/><br/>        .channels-grid {<br/>            display: grid;<br/>            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));<br/>            gap: 12px;<br/>            max-height: 380px;<br/>            overflow-y: auto;<br/>            padding-left: 5px;<br/>        }<br/><br/>        .channel-btn {<br/>            background: var(--card-bg);<br/>            border: 1px solid var(--border-color);<br/>            color: var(--text-color);<br/>            padding: 14px 10px;<br/>            border-radius: 12px;<br/>            text-align: center;<br/>            font-weight: bold;<br/>            cursor: pointer;<br/>            transition: all 0.2s ease;<br/>            white-space: nowrap;<br/>            overflow: hidden;<br/>            text-overflow: ellipsis;<br/>        }<br/><br/>        .channel-btn:hover {<br/>            border-color: var(--accent-color);<br/>            transform: translateY(-2px);<br/>        }<br/><br/>        .channel-btn.active {<br/>            border-color: var(--accent-color);<br/>            background: var(--accent-color);<br/>            color: #fff;<br/>        }<br/>    &lt;/style&gt;<br/>&lt;/head&gt;<br/>&lt;body&gt;<br/><br/>    &lt;header&gt;<br/>        &lt;div class=&quot;logo&quot;&gt;⚽ MCR7 Live&lt;/div&gt;<br/>    &lt;/header&gt;<br/><br/>    &lt;div class=&quot;container&quot;&gt;<br/>        &lt;div class=&quot;player-container&quot;&gt;<br/>            &lt;div class=&quot;player-wrapper&quot;&gt;<br/>                &lt;iframe id=&quot;main-player&quot; allow=&quot;autoplay; encrypted-media; picture-in-picture; fullscreen&quot; allowfullscreen&gt;&lt;/iframe&gt;<br/>            &lt;/div&gt;<br/>            &lt;div class=&quot;player-info&quot;&gt;<br/>                &lt;span class=&quot;live-tag&quot;&gt;مباشر&lt;/span&gt;<br/>                &lt;span id=&quot;current-channel-title&quot;&gt;اختر قناة للمشاهدة&lt;/span&gt;<br/>            &lt;/div&gt;<br/>        &lt;/div&gt;<br/><br/>        &lt;div class=&quot;section-title&quot;&gt;📺 القنوات المتاحة:&lt;/div&gt;<br/>        &lt;div class=&quot;channels-grid&quot; id=&quot;channels-list&quot;&gt;&lt;/div&gt;<br/>    &lt;/div&gt;<br/><br/>    &lt;script&gt;<br/>        let channels = JSON.parse(localStorage.getItem(&#39;app_channels&#39;)) || [<br/>            { name: &quot;قناة 1&quot;, url: &quot;https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID&quot; },<br/>            { name: &quot;قناة 2&quot;, url: &quot;https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID&quot; },<br/>            { name: &quot;قناة 3&quot;, url: &quot;https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID&quot; }<br/>        ];<br/><br/>        const channelsList = document.getElementById(&#39;channels-list&#39;);<br/>        const player = document.getElementById(&#39;main-player&#39;);<br/>        const channelTitle = document.getElementById(&#39;current-channel-title&#39;);<br/><br/>        function loadChannels() {<br/>            channelsList.innerHTML = &#39;&#39;;<br/>            channels.forEach((ch, index) =&gt; {<br/>                const btn = document.createElement(&#39;div&#39;);<br/>                btn.className = &#39;channel-btn&#39; + (index === 0 ? &#39; active&#39; : &#39;&#39;);<br/>                btn.innerText = ch.name;<br/>                btn.onclick = () =&gt; {<br/>                    document.querySelectorAll(&#39;.channel-btn&#39;).forEach(b =&gt; b.classList.remove(&#39;active&#39;));<br/>                    btn.classList.add(&#39;active&#39;);<br/>                    player.src = ch.url;<br/>                    channelTitle.innerText = ch.name;<br/>                };<br/>                channelsList.appendChild(btn);<br/>            });<br/><br/>            if (channels.length &gt; 0) {<br/>                player.src = channels[0].url;<br/>                channelTitle.innerText = channels[0].name;<br/>            }<br/>        }<br/><br/>        loadChannels();<br/>    &lt;/script&gt;<br/>&lt;/body&gt;<br/>&lt;/html&gt;<br/>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCR7 - البث المباشر</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root { --bg-color: #0b0f19; --card-bg: #151f32; --text-color: #f8fafc; --accent-color: #00d26a; --border-color: #233148; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
+body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; display: flex; flex-direction: column; }
+header { background: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 1.5rem; font-weight: 900; color: var(--accent-color); }
+main { flex: 1; max-width: 1200px; width: 100%; margin: 0 auto; padding: 1.5rem 1rem; }
+.video-container { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 1.5rem; }
+.video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+.channels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+.channel-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 1rem; border-radius: 12px; font-weight: bold; cursor: pointer; text-align: center; transition: all 0.2s ease; }
+.channel-btn:hover, .channel-btn.active { background: var(--accent-color); color: #000; border-color: var(--accent-color); }
+</style>
+</head>
+<body>
+<header>
+<div class="logo">⚽ MCR7 LIVE</div>
+</header>
+<main>
+<div class="video-container">
+<iframe id="main-player" src="" allowfullscreen></iframe>
+</div>
+<div class="channels-grid" id="channels-list"></div>
+</main>
+<script>
+const defaultChannels = [
+{ name: 'قناة 1', url: 'https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID' },
+{ name: 'قناة 2', url: 'https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID' }
+];
+
+const channels = JSON.parse(localStorage.getItem('app_channels')) || defaultChannels;
+const player = document.getElementById('main-player');
+const listContainer = document.getElementById('channels-list');
+
+function loadChannel(url, btn) {
+player.src = url;
+document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
+if(btn) btn.classList.add('active');
+}
+
+channels.forEach((ch, index) => {
+const btn = document.createElement('button');
+btn.className = 'channel-btn' + (index === 0 ? ' active' : '');
+btn.textContent = ch.name;
+btn.onclick = () => loadChannel(ch.url, btn);
+listContainer.appendChild(btn);
+});
+
+if(channels.length > 0) loadChannel(channels[0].url);
+</script>
+</body>
+</html>
