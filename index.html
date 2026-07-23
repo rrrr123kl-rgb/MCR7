@@ -8,22 +8,24 @@
     <style>
         :root {
             --bg: #030712;
-            --surface: rgba(15, 23, 42, 0.75);
-            --border: rgba(56, 189, 248, 0.2);
+            --surface: rgba(15, 23, 42, 0.8);
+            --border: rgba(56, 189, 248, 0.25);
             --neon-blue: #00f0ff;
             --neon-pink: #ff0055;
             --neon-green: #10b981;
+            --neon-yellow: #facc15;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
         }
 
         [data-theme="light"] {
             --bg: #f8fafc;
-            --surface: rgba(255, 255, 255, 0.85);
-            --border: rgba(0, 119, 255, 0.2);
+            --surface: rgba(255, 255, 255, 0.9);
+            --border: rgba(0, 119, 255, 0.25);
             --neon-blue: #0284c7;
             --neon-pink: #e11d48;
             --neon-green: #059669;
+            --neon-yellow: #ca8a04;
             --text-main: #0f172a;
             --text-muted: #64748b;
         }
@@ -41,10 +43,112 @@
             padding: 20px;
             min-height: 100vh;
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(255, 0, 85, 0.05) 0%, transparent 40%);
+                radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 85, 0.06) 0%, transparent 40%);
         }
 
+        /* واجهة إدخال الرمز الاحترافية الفخمة */
+        #auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(3, 7, 18, 0.92);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: var(--surface);
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.25);
+            border-radius: 24px;
+            padding: 35px 30px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            animation: fadeInScale 0.5s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            0% { transform: scale(0.85); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .auth-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+        }
+
+        .auth-title {
+            color: var(--neon-blue);
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .auth-subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .auth-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            color: var(--text-main);
+            font-size: 20px;
+            text-align: center;
+            font-family: 'Tajawal', sans-serif;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            outline: none;
+        }
+
+        .auth-input:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+        }
+
+        .auth-btn {
+            background: linear-gradient(135deg, var(--neon-blue), #0284c7);
+            color: #030712;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            font-family: 'Tajawal', sans-serif;
+            box-shadow: 0 4px 20px rgba(0, 240, 255, 0.4);
+        }
+
+        .auth-btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 240, 255, 0.6);
+        }
+
+        .auth-error {
+            color: var(--neon-pink);
+            font-size: 13px;
+            font-weight: 700;
+            margin-top: 15px;
+            display: none;
+            text-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
+        }
+
+        /* المحتوى الرئيسي للموقع */
         .container {
             max-width: 950px;
             margin: 0 auto;
@@ -60,7 +164,7 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            margin-bottom: 35px;
+            margin-bottom: 25px;
             position: relative;
             overflow: hidden;
         }
@@ -105,11 +209,45 @@
             box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
         }
 
+        #player-section {
+            background: var(--surface);
+            backdrop-filter: blur(16px);
+            border: 2px solid var(--neon-blue);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 240, 255, 0.2);
+        }
+
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .player-title {
+            color: var(--neon-blue);
+            font-weight: 800;
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .player-placeholder {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-muted);
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
         .section-title {
             font-size: 20px;
             font-weight: 800;
             color: var(--neon-blue);
-            margin: 35px 0 20px 0;
+            margin: 30px 0 15px 0;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -119,6 +257,33 @@
             flex: 1;
             height: 1px;
             background: var(--border);
+        }
+
+        .timing-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .timing-item {
+            text-align: center;
+        }
+        .timing-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: bold;
+        }
+        .timing-value {
+            font-size: 16px;
+            color: var(--neon-yellow);
+            font-weight: 900;
+            margin-top: 3px;
         }
 
         .grid-cards {
@@ -132,13 +297,11 @@
             backdrop-filter: blur(12px);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 20px;
+            padding: 18px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            position: relative;
-            overflow: hidden;
         }
 
         .match-card:hover {
@@ -202,48 +365,6 @@
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
 
-        #player-container {
-            display: none;
-            background: var(--surface);
-            border: 2px solid var(--neon-blue);
-            border-radius: 20px;
-            padding: 20px;
-            margin-top: 40px;
-            box-shadow: 0 10px 40px rgba(0, 240, 255, 0.25);
-        }
-
-        .player-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .player-title {
-            color: var(--neon-blue);
-            font-weight: 800;
-            font-size: 18px;
-            margin: 0;
-        }
-
-        video {
-            width: 100%;
-            max-height: 480px;
-            background: #000;
-            border-radius: 12px;
-            outline: none;
-        }
-
-        .btn-close {
-            background: var(--neon-pink);
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
         .empty-msg {
             text-align: center;
             color: var(--text-muted);
@@ -253,21 +374,24 @@
             border: 1px dashed var(--border);
         }
     </style>
-    <!-- مكتبة تشغيل الـ m3u8 والـ ts -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body data-theme="dark">
 
-    <script>
-        let pwd = prompt("🔐 أدخل رمز الدخول للموقع:");
-        if (pwd !== "2002") {
-            alert("❌ رمز الدخول غير صحيح!");
-            document.body.innerHTML = "<div style='text-align:center; margin-top:200px; color:#ff0055; font-family:Tajawal; font-size:22px; font-weight:bold;'>رمز الدخول غير صحيح! يرجى إعادة تحميل الصفحة.</div>";
-            throw new Error("Access Denied");
-        }
-    </script>
+    <!-- نافذة إدخال الرمز الاحترافية -->
+    <div id="auth-overlay">
+        <div class="auth-card">
+            <div class="auth-icon">🔒</div>
+            <div class="auth-title">بوابة الدخول المحمية</div>
+            <div class="auth-subtitle">يرجى إدخال رمز المرور للمتابعة إلى الموقع</div>
+            <input type="password" id="auth-code-input" class="auth-input" placeholder="••••" maxlength="6">
+            <button class="auth-btn" onclick="verifyCode()">دخول آمن ⚡</button>
+            <div id="auth-error-msg" class="auth-error">❌ رمز المرور غير صحيح، حاول مرة أخرى!</div>
+        </div>
+    </div>
 
     <div class="container">
+        <!-- الهيدر -->
         <div class="hero-header">
             <div class="logo-area">
                 <h1>⚡ MCR7 ULTRA LIVE</h1>
@@ -276,26 +400,76 @@
             <button class="theme-toggle" onclick="toggleTheme()">🌓 وضع الإضاءة</button>
         </div>
 
-        <div class="section-title">⚽ جدول المباريات المباشرة</div>
-        <div id="matches" class="grid-cards">
-            <div class="empty-msg">جاري تحميل المباريات بأعلى جودة...</div>
+        <!-- 1. شاشة العرض الرئيسية للأعلى -->
+        <div id="player-section">
+            <div class="player-header">
+                <h3 id="player-title" class="player-title">📺 شاشة العرض المباشر</h3>
+            </div>
+            <div id="player-box">
+                <div class="player-placeholder">اختر مباراة أو قناة من الأسفل لتبدأ المشاهدة الفورية 🚀</div>
+            </div>
         </div>
 
+        <!-- 2. قسم توقيت المباريات -->
+        <div class="timing-box">
+            <div class="timing-item">
+                <div class="timing-label">توقيت البث الرسمي</div>
+                <div class="timing-value" id="live-clock">--:--:--</div>
+            </div>
+            <div class="timing-item">
+                <div class="timing-label">حالة السيرفر</div>
+                <div class="timing-value" style="color: var(--neon-green);">متصل ونشط 🟢</div>
+            </div>
+            <div class="timing-item">
+                <div class="timing-label">وضع التشغيل</div>
+                <div class="timing-value" style="color: var(--neon-blue);">VIP ULTRA</div>
+            </div>
+        </div>
+
+        <!-- 3. جدول المباريات -->
+        <div class="section-title">⚽ جدول المباريات الحية</div>
+        <div id="matches" class="grid-cards">
+            <div class="empty-msg">جاري تحميل المباريات...</div>
+        </div>
+
+        <!-- 4. قسم القنوات -->
         <div class="section-title">📺 القنوات الفضائية والرياضية</div>
         <div id="channels" class="grid-cards">
             <div class="empty-msg">جاري تحميل القنوات...</div>
         </div>
-
-        <div id="player-container">
-            <div class="player-header">
-                <h3 id="player-title" class="player-title">مشغل البث</h3>
-                <button class="btn-close" onclick="closePlayer()">إغلاق ✕</button>
-            </div>
-            <video id="video-player" controls autoplay></video>
-        </div>
     </div>
 
     <script>
+        // دالة التحقق من الرمز بالنافذة الاحترافية
+        function verifyCode() {
+            const inputVal = document.getElementById('auth-code-input').value;
+            const errorMsg = document.getElementById('auth-error-msg');
+            
+            if (inputVal === "2002") {
+                const overlay = document.getElementById('auth-overlay');
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 400);
+            } else {
+                errorMsg.style.display = 'block';
+                document.getElementById('auth-code-input').value = '';
+            }
+        }
+
+        // دعم الضغط على زر Enter لإدخال الرمز بسرعة
+        document.getElementById('auth-code-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                verifyCode();
+            }
+        });
+
+        // تحديث الساعة
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('live-clock').innerText = now.toLocaleTimeString('ar-IQ');
+        }, 1000);
+
         function toggleTheme() {
             const body = document.body;
             if (body.getAttribute("data-theme") === "dark") {
@@ -306,16 +480,16 @@
         }
 
         function playStream(url, title) {
-            const container = document.getElementById('player-container');
-            const video = document.getElementById('video-player');
+            const playerBox = document.getElementById('player-box');
             const titleElem = document.getElementById('player-title');
             
-            container.style.display = 'block';
-            titleElem.innerText = "📺 " + title;
-            window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+            titleElem.innerText = "🔴 جاري عرض: " + title;
+            window.scrollTo({top: 0, behavior: 'smooth'});
 
-            // دعم روابط m3u8 و ts بشكل مباشر
             if (url.includes('.m3u8') || url.includes('.ts')) {
+                playerBox.innerHTML = `<video id="video-player" controls autoplay style="width:100%; max-height:480px; background:#000; border-radius:12px;"></video>`;
+                const video = document.getElementById('video-player');
+                
                 if (Hls.isSupported()) {
                     const hls = new Hls();
                     hls.loadSource(url);
@@ -330,18 +504,16 @@
                     });
                 }
             } else {
-                window.open(url, '_blank');
+                playerBox.innerHTML = `
+                    <div style="text-align:center; padding: 30px;">
+                        <p style="color:var(--text-main); font-weight:bold; margin-bottom:15px;">هذا الرابط يتطلب فتح بصفحة مستقلة أو مشغل خارجي:</p>
+                        <a href="${url}" target="_blank" class="btn-action" style="padding: 12px 25px; font-size:16px; display:inline-block;">اضغط هنا لفتح الرابط مباشرة ↗</a>
+                    </div>
+                `;
             }
         }
 
-        function closePlayer() {
-            const video = document.getElementById('video-player');
-            const container = document.getElementById('player-container');
-            video.pause();
-            video.src = "";
-            container.style.display = 'none';
-        }
-
+        // جلب المباريات
         fetch('matches.json')
             .then(res => res.json())
             .then(data => {
@@ -369,6 +541,7 @@
                 document.getElementById('matches').innerHTML = output;
             }).catch(() => { document.getElementById('matches').innerHTML = '<div class="empty-msg">خطأ في تحميل المباريات</div>'; });
 
+        // جلب القنوات
         fetch('channels.json')
             .then(res => res.json())
             .then(data => {
