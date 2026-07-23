@@ -21,9 +21,10 @@ body {
   color: var(--text-color); 
   min-height: 100vh; 
   overflow-x: hidden; 
+  display: flex;
+  flex-direction: column;
 }
 
-/* شاشة تسجيل الدخول السيبرانية */
 .login-screen { position: fixed; inset: 0; background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(15px); display: flex; align-items: center; justify-content: center; z-index: 999; padding: 1rem; }
 .login-box { background: var(--card-bg); padding: 2.5rem; border-radius: 24px; border: 1px solid var(--border-glow); text-align: center; max-width: 400px; width: 100%; box-shadow: 0 0 50px rgba(0, 240, 255, 0.15); backdrop-filter: blur(10px); }
 .login-box h3 { color: var(--neon-cyan); margin-bottom: 1.5rem; font-size: 1.5rem; text-shadow: 0 0 10px rgba(0,240,255,0.5); }
@@ -31,7 +32,6 @@ input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid rgba(
 input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); }
 .login-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); color: #000; border: none; font-weight: 900; border-radius: 12px; cursor: pointer; font-size: 1.1rem; box-shadow: 0 0 25px rgba(0, 240, 255, 0.4); transition: 0.3s; }
 
-/* الهيدر السيبراني مع إضاءة نيون متحركة */
 header { background: rgba(15, 23, 42, 0.8); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); }
 .logo { font-size: 1.6rem; font-weight: 900; background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple), #ff007f, var(--neon-cyan)); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: sciFiGlow 6s ease infinite; text-shadow: 0 0 25px rgba(0,240,255,0.4); }
 
@@ -41,24 +41,33 @@ header { background: rgba(15, 23, 42, 0.8); border-bottom: 1px solid rgba(255,25
   100% { background-position: 0% 50%; }
 }
 
-main { max-width: 1100px; width: 100%; margin: 0 auto; padding: 2rem 1rem; display: none; }
+main { max-width: 1100px; width: 100%; margin: 0 auto; padding: 2rem 1rem; flex: 1; display: none; }
 
-/* حاوية البث الخيالية */
 .video-container { position: relative; width: 100%; height: 0; padding-bottom: 56.25%; background: #000; border-radius: 20px; overflow: hidden; border: 2px solid var(--border-glow); box-shadow: 0 0 40px rgba(0, 240, 255, 0.2); margin-bottom: 2rem; display: flex; align-items: center; justify-content: center; }
 .video-container video, .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-/* شاشة توجيه ذكية لروابط البروكسي المحمية */
 .proxy-overlay { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: rgba(2, 6, 23, 0.92); z-index: 20; text-align: center; padding: 2rem; }
 .proxy-overlay h4 { color: var(--neon-cyan); font-size: 1.3rem; margin-bottom: 0.8rem; text-shadow: 0 0 10px rgba(0,240,255,0.4); }
 .proxy-overlay p { color: #94a3b8; margin-bottom: 1.5rem; font-size: 1rem; max-width: 400px; }
 .proxy-btn { padding: 14px 28px; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); color: #000; font-weight: 900; border: none; border-radius: 12px; cursor: pointer; text-decoration: none; box-shadow: 0 0 20px rgba(0,240,255,0.4); transition: 0.3s; }
-.proxy-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(0,240,255,0.7); }
+.proxy-btn:hover { transform: scale(1.05); }
 
 h3 { color: #94a3b8; font-weight: 700; margin-bottom: 1rem; letter-spacing: 1px; font-size: 1rem; }
-.channels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
+.channels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; margin-bottom: 2.5rem; }
 .channel-btn { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08); color: var(--text-color); padding: 14px; border-radius: 14px; font-weight: bold; cursor: pointer; text-align: center; transition: 0.3s; backdrop-filter: blur(5px); }
-.channel-btn:hover { border-color: var(--neon-cyan); transform: translateY(-3px); box-shadow: 0 5px 20px rgba(0, 240, 255, 0.2); }
+.channel-btn:hover { border-color: var(--neon-cyan); transform: translateY(-3px); }
 .channel-btn.active { background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); color: #000; border-color: transparent; box-shadow: 0 0 25px rgba(0, 240, 255, 0.5); }
+
+/* قسم جدول المباريات للمشاهدين */
+.matches-section { background: var(--card-bg); border: 1px solid var(--border-glow); border-radius: 20px; padding: 1.5rem; backdrop-filter: blur(10px); margin-bottom: 2rem; }
+.matches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+.match-card { background: rgba(2, 6, 23, 0.6); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1rem; text-align: center; }
+.match-teams { font-size: 1.1rem; font-weight: bold; color: #fff; margin-bottom: 0.5rem; }
+.match-time { color: var(--neon-cyan); font-size: 0.9rem; font-weight: bold; }
+
+/* توقيع محمد جواد أسفل الحافة بألوان نيون متحركة */
+footer { text-align: center; padding: 1.5rem; font-size: 0.85krem; font-weight: 700; background: rgba(2, 6, 23, 0.9); border-top: 1px solid rgba(255,255,255,0.05); }
+.signature { background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple), #ff007f, var(--neon-cyan)); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: sciFiGlow 6s ease infinite; text-shadow: 0 0 15px rgba(0,240,255,0.3); }
 </style>
 </head>
 <body>
@@ -78,53 +87,70 @@ h3 { color: #94a3b8; font-weight: 700; margin-bottom: 1rem; letter-spacing: 1px;
 <main id="mainContent">
   <div class="video-container" id="playerWrapper">
     <video id="videoPlayer" controls autoplay playsinline style="display:none;"></video>
-    
-    <!-- واجهة ذكية تظهر فوراً لروابط البروكسي واليوتيوب المحمية لتشغيلها بسلاسة -->
     <div class="proxy-overlay" id="proxyOverlay">
-      <security-title><h4>🔒 سيرفر محمي من المصدر</h4></security-title>
-      <p>هذا السيرفر يتطلب التشغيل المباشر لضمان عدم توقف البث أو ظهور شاشة سوداء.</p>
+      <h4>🔒 سيرفر محمي من المصدر</h4>
+      <p>هذا السيرفر يتطلب التشغيل المباشر لضمان عدم توقف البث.</p>
       <a id="directOpenBtn" href="#" target="_blank" class="proxy-btn">🚀 اضغط هنا لفتح البث فوراً</a>
     </div>
   </div>
   
   <h3>📺 قنوات البث النشطة:</h3>
   <div class="channels-grid" id="channelsList"></div>
+
+  <h3>⚽ جدول المباريات اليومية:</h3>
+  <div class="matches-section">
+    <div class="matches-grid" id="matchesList">
+      <div style="color: #64748b; text-align: center; width: 100%;">جاري تحميل جدول المباريات...</div>
+    </div>
+  </div>
 </main>
 
+<footer>
+  <span class="signature">تصميم وتطوير: محمد جواد ⚡</span>
+</footer>
+
 <script>
-const DEFAULT_PASS = "1234";
 let hls = null;
 
 function checkPass() {
   const entered = document.getElementById('sitePass').value;
-  const savedPass = localStorage.getItem('mcr7_site_pass') || DEFAULT_PASS;
+  const savedPass = localStorage.getItem('mcr7_site_pass') || '1234';
   if(entered === savedPass) {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';
-    loadChannels();
+    loadData();
   } else {
     alert('رمز الدخول غير صحيح!');
   }
 }
 
-async function loadChannels() {
+async function loadData() {
+  // تحميل القنوات
   let channels = [];
   try {
     const res = await fetch('https://rrrr123kl-rgb.github.io/MCR7/channels.json?t=' + Date.now());
     if(res.ok) channels = await res.json();
   } catch(e) {}
-
   if(!channels || channels.length === 0) {
     channels = JSON.parse(localStorage.getItem('app_channels')) || [];
   }
+  renderChannels(channels);
 
-  renderButtons(channels);
+  // تحميل المباريات (من الذاكرة المحلية أو ملف json إن وجد)
+  let matches = [];
+  try {
+    const resM = await fetch('https://rrrr123kl-rgb.github.io/MCR7/matches.json?t=' + Date.now());
+    if(resM.ok) matches = await resM.json();
+  } catch(e) {}
+  if(!matches || matches.length === 0) {
+    matches = JSON.parse(localStorage.getItem('app_matches')) || [];
+  }
+  renderMatches(matches);
 }
 
-function renderButtons(channels) {
+function renderChannels(channels) {
   const container = document.getElementById('channelsList');
   container.innerHTML = '';
-
   channels.forEach((ch, index) => {
     const btn = document.createElement('button');
     btn.className = 'channel-btn' + (index === 0 ? ' active' : '');
@@ -132,8 +158,25 @@ function renderButtons(channels) {
     btn.onclick = () => playStream(ch.url, btn);
     container.appendChild(btn);
   });
-
   if(channels.length > 0) playStream(channels[0].url, container.firstChild);
+}
+
+function renderMatches(matches) {
+  const container = document.getElementById('matchesList');
+  if(!matches || matches.length === 0) {
+    container.innerHTML = '<div style="color: #94a3b8; text-align: center; width: 100%;">لا توجد مباريات مضافة حالياً.</div>';
+    return;
+  }
+  container.innerHTML = '';
+  matches.forEach(m => {
+    const card = document.createElement('div');
+    card.className = 'match-card';
+    card.innerHTML = `
+      <div class="match-teams">⚽ ${m.team1} <span style="color: var(--neon-cyan)">VS</span> ${m.team2}</div>
+      <div class="match-time">⏰ التوقيت: ${m.time}</div>
+    `;
+    container.appendChild(card);
+  });
 }
 
 function playStream(url, btnElement) {
@@ -141,12 +184,10 @@ function playStream(url, btnElement) {
     document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
     btnElement.classList.add('active');
   }
-
   const wrapper = document.getElementById('playerWrapper');
   const video = document.getElementById('videoPlayer');
   const proxyOverlay = document.getElementById('proxyOverlay');
 
-  // إيقاف وتفريغ تام للبث السابق فوراً وبدون رفرش
   video.pause();
   video.src = "";
   video.style.display = 'none';
@@ -154,29 +195,20 @@ function playStream(url, btnElement) {
   
   const oldIframe = wrapper.querySelector('iframe');
   if(oldIframe) oldIframe.remove();
+  if (hls) { hls.destroy(); hls = null; }
 
-  if (hls) {
-    hls.destroy();
-    hls = null;
-  }
-
-  // فحص نوع الرابط بدقة متناهية
   if (url.includes('.m3u8') || url.includes('.ts')) {
-    // روابط البث المباشر الخام تشتغل داخل المشغل فوراً
     video.style.display = 'block';
     if (Hls.isSupported()) {
       hls = new Hls();
       hls.loadSource(url);
       hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, function() {
-        video.play().catch(e => console.log("Autoplay blocked"));
-      });
+      hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(e => {}));
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
       video.src = url;
-      video.play().catch(e => console.log("Autoplay blocked"));
+      video.play().catch(e => {});
     }
   } else {
-    // الروابط المحمية أو روابط البروكسي (مثل العبودي) تظهر زر الخيال العلمي الأنيق للتشغيل الفوري المضمون
     proxyOverlay.style.display = 'flex';
     document.getElementById('directOpenBtn').href = url;
   }
