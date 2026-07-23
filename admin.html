@@ -7,171 +7,60 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root { 
-  --bg-deep: #030712;
+  --bg-dark: #030712; 
   --card-bg: rgba(15, 23, 42, 0.75); 
   --text-color: #f8fafc; 
   --neon-cyan: #00f0ff; 
   --neon-purple: #c084fc; 
-  --neon-pink: #f43f5e;
+  --neon-pink: #ec4899;
   --border-glow: rgba(0, 240, 255, 0.4); 
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
-
 body { 
-  background: var(--bg-deep);
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.15) 0%, transparent 40%);
+  background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, var(--bg-dark) 80%); 
   color: var(--text-color); 
   min-height: 100vh; 
   padding: 1.5rem; 
 }
 
-/* شاشة تسجيل الدخول بتصميم فضائي */
-.login-screen { 
-  position: fixed; inset: 0; 
-  background: rgba(3, 7, 18, 0.92); 
-  backdrop-filter: blur(20px); 
-  display: flex; align-items: center; justify-content: center; 
-  z-index: 999; padding: 1rem; 
-}
-.login-box { 
-  background: var(--card-bg); 
-  padding: 3rem 2rem; 
-  border-radius: 28px; 
-  border: 1px solid var(--border-glow); 
-  text-align: center; 
-  max-width: 420px; width: 100%; 
-  box-shadow: 0 0 60px rgba(0, 240, 255, 0.2), inset 0 0 20px rgba(0, 240, 255, 0.05); 
-  backdrop-filter: blur(15px); 
-}
-.login-box h3 { 
-  color: var(--neon-cyan); 
-  margin-bottom: 2rem; 
-  font-size: 1.6rem; 
-  font-weight: 900;
-  text-shadow: 0 0 15px rgba(0,240,255,0.6); 
-}
+/* شاشة تسجيل الدخول الخيالية */
+.login-screen { position: fixed; inset: 0; background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(20px); display: flex; align-items: center; justify-content: center; z-index: 999; padding: 1rem; }
+.login-box { background: var(--card-bg); padding: 3rem 2rem; border-radius: 30px; border: 1px solid var(--border-glow); text-align: center; max-width: 420px; width: 100%; box-shadow: 0 0 60px rgba(0, 240, 255, 0.2); backdrop-filter: blur(15px); }
+.login-box h3 { color: var(--neon-cyan); margin-bottom: 2rem; font-size: 1.6rem; text-shadow: 0 0 15px rgba(0,240,255,0.6); }
 
 .admin-container { max-width: 850px; margin: 0 auto; display: none; }
+.header-box { text-align: center; margin-bottom: 2.5rem; position: relative; }
+.header-box::after { content: ''; display: block; width: 100px; height: 3px; background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent); margin: 15px auto 0; box-shadow: 0 0 10px var(--neon-cyan); }
+.header-box h1 { font-size: 2.2rem; background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 25px rgba(0,240,255,0.4); margin-bottom: 0.5rem; font-weight: 900; }
+.header-box p { color: var(--neon-cyan); font-weight: bold; font-size: 1.2rem; text-shadow: 0 0 12px rgba(0,240,255,0.5); letter-spacing: 1px; }
 
-.header-box { 
-  text-align: center; 
-  margin-bottom: 2.5rem; 
-  padding: 1.5rem;
-  background: var(--card-bg);
-  border-radius: 24px;
-  border: 1px solid var(--border-glow);
-  box-shadow: 0 0 40px rgba(0,240,255,0.1);
-}
-.header-box h1 { 
-  font-size: 2.3rem; 
-  font-weight: 900;
-  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); 
-  -webkit-background-clip: text; 
-  -webkit-text-fill-color: transparent; 
-  text-shadow: 0 0 25px rgba(0,240,255,0.4); 
-  margin-bottom: 0.4rem; 
-}
-.header-box p { 
-  color: var(--neon-cyan); 
-  font-weight: 700; 
-  font-size: 1.2rem; 
-  letter-spacing: 1px;
-  text-shadow: 0 0 10px rgba(0,240,255,0.4); 
-}
+.card { background: var(--card-bg); border: 1px solid var(--border-glow); border-radius: 24px; padding: 2rem; margin-bottom: 2rem; backdrop-filter: blur(15px); box-shadow: 0 0 40px rgba(0, 240, 255, 0.08); transition: 0.3s; }
+.card:hover { border-color: rgba(0, 240, 255, 0.7); box-shadow: 0 0 50px rgba(0, 240, 255, 0.15); }
+.card h3 { color: var(--neon-cyan); margin-bottom: 1.2rem; font-size: 1.3rem; text-shadow: 0 0 10px rgba(0,240,255,0.3); }
 
-.card { 
-  background: var(--card-bg); 
-  border: 1px solid var(--border-glow); 
-  border-radius: 24px; 
-  padding: 2rem; 
-  margin-bottom: 1.8rem; 
-  backdrop-filter: blur(12px); 
-  box-shadow: 0 0 35px rgba(0, 240, 255, 0.08); 
-  transition: 0.3s;
-}
-.card:hover {
-  box-shadow: 0 0 45px rgba(0, 240, 255, 0.15);
-  border-color: rgba(0, 240, 255, 0.6);
-}
-.card h3 { 
-  color: var(--neon-cyan); 
-  margin-bottom: 1.2rem; 
-  font-size: 1.3rem; 
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(3, 7, 18, 0.9); color: #fff; margin-bottom: 1rem; outline: none; font-size: 1rem; transition: 0.3s; text-align: center; }
+input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); background: rgba(3, 7, 18, 1); }
 
-input { 
-  width: 100%; 
-  padding: 14px 16px; 
-  border-radius: 12px; 
-  border: 1px solid rgba(255, 255, 255, 0.1); 
-  background: rgba(2, 6, 23, 0.85); 
-  color: #fff; 
-  margin-bottom: 1rem; 
-  outline: none; 
-  font-size: 1rem; 
-  transition: 0.3s; 
-  text-align: right; 
-}
-input:focus { 
-  border-color: var(--neon-cyan); 
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.35); 
-}
-
-.btn { 
-  width: 100%; 
-  padding: 13px; 
-  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); 
-  color: #030712; 
-  border: none; 
-  font-weight: 900; 
-  border-radius: 12px; 
-  cursor: pointer; 
-  font-size: 1.05rem; 
-  transition: 0.3s; 
-  box-shadow: 0 0 20px rgba(0,240,255,0.4); 
-}
-.btn:hover { 
-  transform: translateY(-2px);
-  box-shadow: 0 0 30px rgba(0,240,255,0.7); 
-}
-
-.btn-danger { background: linear-gradient(135deg, #f43f5e, #be123c); color: #fff; box-shadow: 0 0 15px rgba(244,63,94,0.4); }
-.btn-danger:hover { box-shadow: 0 0 25px rgba(244,63,94,0.7); }
-
+.btn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); color: #000; border: none; font-weight: 900; border-radius: 12px; cursor: pointer; font-size: 1.05rem; transition: 0.3s; box-shadow: 0 0 20px rgba(0,240,255,0.4); }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0,240,255,0.7); }
+.btn-danger { background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; box-shadow: 0 0 15px rgba(239,68,68,0.4); }
 .btn-edit { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: #fff; box-shadow: 0 0 15px rgba(59,130,246,0.4); }
-.btn-edit:hover { box-shadow: 0 0 25px rgba(59,130,246,0.7); }
+.btn-secondary { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); margin-top: 8px; }
 
 .actions-group { display: flex; gap: 8px; }
-.item-row { 
-  background: rgba(2, 6, 23, 0.7); 
-  border: 1px solid rgba(255, 255, 255, 0.07); 
-  padding: 12px 18px; 
-  border-radius: 12px; 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  margin-bottom: 12px; 
-  transition: 0.2s;
-}
-.item-row:hover { border-color: rgba(0,240,255,0.3); }
-.item-info { text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 55%; font-weight: bold; }
+.item-row { background: rgba(3, 7, 18, 0.7); border: 1px solid rgba(255,255,255,0.06); padding: 12px 18px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; transition: 0.2s; }
+.item-row:hover { border-color: rgba(0,240,255,0.3); background: rgba(3, 7, 18, 0.9); }
+.item-info { text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 50%; font-size: 0.95rem; }
 </style>
 </head>
 <body>
 
-<!-- شاشة تسجيل الدخول بدون أي كتابة مزعجة -->
+<!-- شاشة حماية لوحة التحكم -->
 <div class="login-screen" id="adminLoginScreen">
   <div class="login-box">
     <h3>🛡️ بوابة التحكم السيبراني</h3>
-    <input type="password" id="adminPassInput" placeholder="أدخل الرمز السري للوحة">
-    <button class="btn" onclick="checkAdminPass()">دخول للنظام</button>
+    <input type="password" id="adminPassInput" placeholder="أدخل رمز لوحة التحكم">
+    <button class="btn" onclick="checkAdminPass()">دخول للوحة</button>
   </div>
 </div>
 
@@ -181,61 +70,143 @@ input:focus {
     <p>لوحة تحكم محمد جواد</p>
   </div>
 
-  <!-- قسم تغيير رمز دخول موقع المشاهدين -->
+  <!-- إعدادات رمز التوثيق فقط (تم تثبيت اسمك والمستودع تلقائياً) -->
+  <div class="card" style="border-color: var(--neon-purple);">
+    <h3>⚙️ إعدادات مزامنة السيرفر (أدخل رمز GitHub Token مرة واحدة)</h3>
+    <input type="password" id="ghToken" placeholder="أدخل رمز GitHub Token (يبدأ بـ ghp_...)">
+    <button class="btn" onclick="saveGitHubSettings()" style="background: linear-gradient(135deg, #10b981, #059669); color: #fff;">حفظ الرمز وتفعيل المزامنة</button>
+  </div>
+
+  <!-- تغيير رمز المشاهدين -->
   <div class="card">
-    <h3>🔐 رمز الدخول السري لموقع المشاهدين</h3>
+    <h3>🔐 تغيير رمز الدخول السري لموقع المشاهدين</h3>
     <input type="password" id="newPass" placeholder="أدخل رمز موقع المشاهدين الجديد">
     <button class="btn" onclick="savePassword()">تحديث رمز الموقع</button>
   </div>
 
-  <!-- قسم إدارة القنوات -->
-  <div class="card" id="channelCardSection">
-    <h3 id="channelFormTitle">📺 إدارة القنوات وبث المباشر</h3>
+  <!-- إدارة القنوات -->
+  <div class="card">
+    <h3 id="channelFormTitle">📺 إضافة قناة جديدة للبث</h3>
     <input type="hidden" id="editChannelIndex" value="-1">
-    <input type="text" id="chName" placeholder="اسم القناة (مثال: beIN Sports 1)">
-    <input type="text" id="chUrl" placeholder="رابط البث (.m3u8 أو رابط العبودي)">
+    <input type="text" id="chName" style="text-align: right;" placeholder="اسم القناة (مثال: beIN Sports 1)">
+    <input type="text" id="chUrl" style="text-align: right;" placeholder="رابط البث (.m3u8 أو رابط العبودي)">
     <button class="btn" id="channelBtnAction" onclick="saveChannel()">إضافة القناة للنظام</button>
-    <button class="btn" id="cancelEditChannelBtn" onclick="cancelChannelEdit()" style="background: #475569; color:#fff; margin-top: 8px; display:none; box-shadow:none;">إلغاء التعديل</button>
-    <div id="channelsList" style="margin-top: 20px;"></div>
+    <button class="btn btn-secondary" id="cancelEditChannelBtn" onclick="cancelChannelEdit()" style="display:none;">إلغاء التعديل</button>
+    <div id="channelsList" style="margin-top: 15px;">جاري جلب القنوات من السيرفر...</div>
   </div>
 
-  <!-- قسم جدول المباريات مع التعديل والحذف -->
-  <div class="card" id="matchCardSection">
-    <h3 id="matchFormTitle">⚽ جدول المباريات والعرض</h3>
+  <!-- جدول المباريات -->
+  <div class="card">
+    <h3 id="matchFormTitle">⚽ إضافة مباراة جديدة لجدول العرض</h3>
     <input type="hidden" id="editMatchIndex" value="-1">
-    <input type="text" id="team1" placeholder="الفريق الأول (مثال: ريال مدريد)">
-    <input type="text" id="team2" placeholder="الفريق الثاني (مثال: برشلونة)">
-    <input type="text" id="matchTime" placeholder="التوقيت (مثال: اليوم 10:00 مساءً)">
+    <input type="text" id="team1" style="text-align: right;" placeholder="الفريق الأول (مثال: ريال مدريد)">
+    <input type="text" id="team2" style="text-align: right;" placeholder="الفريق الثاني (مثال: برشلونة)">
+    <input type="text" id="matchTime" style="text-align: right;" placeholder="التوقيت (مثال: اليوم 10:00 مساءً)">
     <button class="btn" id="matchBtnAction" onclick="saveMatch()">إضافة المباراة للجدول</button>
-    <button class="btn" id="cancelEditMatchBtn" onclick="cancelMatchEdit()" style="background: #475569; color:#fff; margin-top: 8px; display:none; box-shadow:none;">إلغاء التعديل</button>
-    <div id="matchesList" style="margin-top: 20px;"></div>
+    <button class="btn btn-secondary" id="cancelEditMatchBtn" onclick="cancelMatchEdit()" style="display:none;">إلغاء التعديل</button>
+    <div id="matchesList" style="margin-top: 15px;">جاري جلب المباريات من السيرفر...</div>
   </div>
 </div>
 
 <script>
 const ADMIN_SECRET = "admin8_2";
+// تثبيت معلومات مستودعك تلقائياً
+const GITHUB_USER = "rrrr123kl-rgb";
+const GITHUB_REPO = "MCR7";
 
 function checkAdminPass() {
   const entered = document.getElementById('adminPassInput').value;
   if(entered === ADMIN_SECRET) {
     document.getElementById('adminLoginScreen').style.display = 'none';
     document.getElementById('adminPanel').style.display = 'block';
-    renderAll();
+    loadSettings();
+    fetchDataFromGitHub();
   } else {
     alert('رمز لوحة التحكم غير صحيح!');
   }
 }
 
-let channels = JSON.parse(localStorage.getItem('app_channels')) || [];
-let matches = JSON.parse(localStorage.getItem('app_matches')) || [];
+let channels = [];
+let matches = [];
+
+function loadSettings() {
+  document.getElementById('ghToken').value = localStorage.getItem('gh_token') || '';
+}
+
+function saveGitHubSettings() {
+  const token = document.getElementById('ghToken').value.trim();
+  if(!token) return alert('يرجى إدخال رمز الـ Token!');
+  localStorage.setItem('gh_token', token);
+  alert('تم حفظ الرمز وتفعيل الربط بنجاح!');
+  fetchDataFromGitHub();
+}
+
+// جلب البيانات من ملفات GitHub
+async function fetchDataFromGitHub() {
+  try {
+    const chRes = await fetch(`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/channels.json?t=${Date.now()}`);
+    if(chRes.ok) { channels = await chRes.json(); } else { channels = []; }
+
+    const mRes = await fetch(`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/matches.json?t=${Date.now()}`);
+    if(mRes.ok) { matches = await mRes.json(); } else { matches = []; }
+
+    renderAll();
+  } catch(e) {
+    channels = [];
+    matches = [];
+    renderAll();
+  }
+}
+
+// رفع التعديلات مباشرة إلى GitHub
+async function updateGitHubFile(path, content, message) {
+  const token = localStorage.getItem('gh_token');
+  if(!token) {
+    alert('يرجى إدخال حفظ رمز الـ Token في إعدادات السيرفر بالأعلى أولاً!');
+    return false;
+  }
+
+  let sha = '';
+  try {
+    const getRes = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${path}`, {
+      headers: { 'Authorization': `token ${token}` }
+    });
+    if(getRes.ok) {
+      const data = await getRes.json();
+      sha = data.sha;
+    }
+  } catch(err) {}
+
+  const putRes = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${path}`, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `token ${token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message: message,
+      content: btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2)))),
+      sha: sha ? sha : undefined
+    })
+  });
+
+  if(putRes.ok) {
+    return true;
+  } else {
+    const errData = await putRes.json();
+    alert('خطأ بالحفظ على السيرفر: ' + (errData.message || 'تأكد من صحة الرمز Token'));
+    return false;
+  }
+}
 
 function renderAll() {
   const chContainer = document.getElementById('channelsList');
   chContainer.innerHTML = '';
+  if(channels.length === 0) chContainer.innerHTML = '<p style="color:#94a3b8;">لا توجد قنوات مضافة حالياً.</p>';
   channels.forEach((ch, idx) => {
     chContainer.innerHTML += `
       <div class="item-row">
-        <span class="item-info" title="${ch.name}">📺 ${ch.name}</span>
+        <span class="item-info" title="${ch.name} - ${ch.url}"><b>${ch.name}</b></span>
         <div class="actions-group">
           <button class="btn btn-edit" style="padding:6px 12px; font-size:0.85rem;" onclick="startEditChannel(${idx})">تعديل</button>
           <button class="btn btn-danger" style="padding:6px 12px; font-size:0.85rem;" onclick="deleteChannel(${idx})">حذف</button>
@@ -245,10 +216,11 @@ function renderAll() {
 
   const mContainer = document.getElementById('matchesList');
   mContainer.innerHTML = '';
+  if(matches.length === 0) mContainer.innerHTML = '<p style="color:#94a3b8;">لا توجد مباريات مضافة حالياً.</p>';
   matches.forEach((m, idx) => {
     mContainer.innerHTML += `
       <div class="item-row">
-        <span class="item-info">⚽ ${m.team1} VS ${m.team2} (${m.time})</span>
+        <span class="item-info" title="${m.team1} VS ${m.team2}">⚽ ${m.team1} VS ${m.team2} (${m.time})</span>
         <div class="actions-group">
           <button class="btn btn-edit" style="padding:6px 12px; font-size:0.85rem;" onclick="startEditMatch(${idx})">تعديل</button>
           <button class="btn btn-danger" style="padding:6px 12px; font-size:0.85rem;" onclick="deleteMatch(${idx})">حذف</button>
@@ -265,27 +237,28 @@ function savePassword() {
   document.getElementById('newPass').value = '';
 }
 
-// القنوات
-function saveChannel() {
+/* دوال القنوات */
+async function saveChannel() {
   const name = document.getElementById('chName').value;
   const url = document.getElementById('chUrl').value;
   const editIdx = parseInt(document.getElementById('editChannelIndex').value);
 
-  if(!name || !url) return alert('يرجى ملء كافة حقول القناة!');
+  if(!name || !url) return alert('يرجى ملء كافة الحقول!');
 
+  let updatedChannels = [...channels];
   if(editIdx === -1) {
-    channels.push({name, url});
-    alert('تمت إضافة القناة بنجاح!');
+    updatedChannels.push({name, url});
   } else {
-    channels[editIdx] = {name, url};
-    alert('تم تحديث بيانات القناة بنجاح!');
-    cancelChannelEdit();
+    updatedChannels[editIdx] = {name, url};
   }
 
-  localStorage.setItem('app_channels', JSON.stringify(channels));
-  document.getElementById('chName').value = '';
-  document.getElementById('chUrl').value = '';
-  renderAll();
+  const success = await updateGitHubFile('channels.json', updatedChannels, 'Update channels');
+  if(success) {
+    channels = updatedChannels;
+    alert(editIdx === -1 ? 'تمت إضافة القناة ورفعها للسيرفر بنجاح!' : 'تم تحديث القناة بنجاح!');
+    cancelChannelEdit();
+    renderAll();
+  }
 }
 
 function startEditChannel(idx) {
@@ -293,28 +266,33 @@ function startEditChannel(idx) {
   document.getElementById('chName').value = channels[idx].name;
   document.getElementById('chUrl').value = channels[idx].url;
   document.getElementById('channelFormTitle').textContent = '✏️ تعديل بيانات القناة';
-  document.getElementById('channelBtnAction').textContent = 'حفظ تعديل القناة';
+  document.getElementById('channelBtnAction').textContent = 'حفظ التعديلات';
   document.getElementById('cancelEditChannelBtn').style.display = 'block';
-  window.scrollTo({top: 200, behavior: 'smooth'});
+  window.scrollTo({top: 400, behavior: 'smooth'});
 }
 
 function cancelChannelEdit() {
   document.getElementById('editChannelIndex').value = '-1';
   document.getElementById('chName').value = '';
   document.getElementById('chUrl').value = '';
-  document.getElementById('channelFormTitle').textContent = '📺 إدارة القنوات وبث المباشر';
+  document.getElementById('channelFormTitle').textContent = '📺 إضافة قناة جديدة للبث';
   document.getElementById('channelBtnAction').textContent = 'إضافة القناة للنظام';
   document.getElementById('cancelEditChannelBtn').style.display = 'none';
 }
 
-function deleteChannel(idx) {
-  channels.splice(idx, 1);
-  localStorage.setItem('app_channels', JSON.stringify(channels));
-  renderAll();
+async function deleteChannel(idx) {
+  if(!confirm('هل أنت متأكد من حذف هذه القناة؟')) return;
+  let updatedChannels = channels.filter((_, i) => i !== idx);
+  const success = await updateGitHubFile('channels.json', updatedChannels, 'Delete channel');
+  if(success) {
+    channels = updatedChannels;
+    renderAll();
+    alert('تم الحذف بنجاح!');
+  }
 }
 
-// المباريات
-function saveMatch() {
+/* دوال المباريات */
+async function saveMatch() {
   const team1 = document.getElementById('team1').value;
   const team2 = document.getElementById('team2').value;
   const time = document.getElementById('matchTime').value;
@@ -322,20 +300,20 @@ function saveMatch() {
 
   if(!team1 || !team2 || !time) return alert('يرجى إكمال تفاصيل المباراة!');
 
+  let updatedMatches = [...matches];
   if(editIdx === -1) {
-    matches.push({team1, team2, time});
-    alert('تمت إضافة المباراة بنجاح!');
+    updatedMatches.push({team1, team2, time});
   } else {
-    matches[editIdx] = {team1, team2, time};
-    alert('تم تحديث تفاصيل المباراة بنجاح!');
-    cancelMatchEdit();
+    updatedMatches[editIdx] = {team1, team2, time};
   }
 
-  localStorage.setItem('app_matches', JSON.stringify(matches));
-  document.getElementById('team1').value = '';
-  document.getElementById('team2').value = '';
-  document.getElementById('matchTime').value = '';
-  renderAll();
+  const success = await updateGitHubFile('matches.json', updatedMatches, 'Update matches');
+  if(success) {
+    matches = updatedMatches;
+    alert(editIdx === -1 ? 'تمت إضافة المباراة ورفعها للسيرفر بنجاح!' : 'تم تحديث المباراة بنجاح!');
+    cancelMatchEdit();
+    renderAll();
+  }
 }
 
 function startEditMatch(idx) {
@@ -344,9 +322,9 @@ function startEditMatch(idx) {
   document.getElementById('team2').value = matches[idx].team2;
   document.getElementById('matchTime').value = matches[idx].time;
   document.getElementById('matchFormTitle').textContent = '✏️ تعديل تفاصيل المباراة';
-  document.getElementById('matchBtnAction').textContent = 'حفظ تعديل المباراة';
+  document.getElementById('matchBtnAction').textContent = 'حفظ تعديلات المباراة';
   document.getElementById('cancelEditMatchBtn').style.display = 'block';
-  window.scrollTo({top: 500, behavior: 'smooth'});
+  window.scrollTo({top: 700, behavior: 'smooth'});
 }
 
 function cancelMatchEdit() {
@@ -354,15 +332,20 @@ function cancelMatchEdit() {
   document.getElementById('team1').value = '';
   document.getElementById('team2').value = '';
   document.getElementById('matchTime').value = '';
-  document.getElementById('matchFormTitle').textContent = '⚽ جدول المباريات والعرض';
+  document.getElementById('matchFormTitle').textContent = '⚽ إضافة مباراة جديدة لجدول العرض';
   document.getElementById('matchBtnAction').textContent = 'إضافة المباراة للجدول';
   document.getElementById('cancelEditMatchBtn').style.display = 'none';
 }
 
-function deleteMatch(idx) {
-  matches.splice(idx, 1);
-  localStorage.setItem('app_matches', JSON.stringify(matches));
-  renderAll();
+async function deleteMatch(idx) {
+  if(!confirm('هل أنت متأكد من حذف هذه المباراة؟')) return;
+  let updatedMatches = matches.filter((_, i) => i !== idx);
+  const success = await updateGitHubFile('matches.json', updatedMatches, 'Delete match');
+  if(success) {
+    matches = updatedMatches;
+    renderAll();
+    alert('تم الحذف بنجاح!');
+  }
 }
 </script>
 </body>
