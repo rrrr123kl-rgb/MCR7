@@ -3,57 +3,110 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
 <title>MCR7 - البث المباشر</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 :root { --bg-color: #0b0f19; --card-bg: #151f32; --text-color: #f8fafc; --accent-color: #00d26a; --border-color: #233148; }
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
-body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; display: flex; flex-direction: column; }
+body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; }
+.login-screen { position: fixed; inset: 0; background: var(--bg-color); display: flex; align-items: center; justify-content: center; z-index: 999; padding: 1rem; }
+.login-box { background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color); text-align: center; max-width: 400px; width: 100%; }
+input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: #fff; margin: 15px 0; text-align: center; outline: none; }
+button { width: 100%; padding: 12px; background: var(--accent-color); color: #000; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 1rem; }
 header { background: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
 .logo { font-size: 1.5rem; font-weight: 900; color: var(--accent-color); }
-main { flex: 1; max-width: 1200px; width: 100%; margin: 0 auto; padding: 1.5rem 1rem; }
-.video-container { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 1.5rem; }
-.video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-.channels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
-.channel-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 1rem; border-radius: 12px; font-weight: bold; cursor: pointer; text-align: center; transition: all 0.2s ease; }
-.channel-btn:hover, .channel-btn.active { background: var(--accent-color); color: #000; border-color: var(--accent-color); }
+main { max-width: 1200px; width: 100%; margin: 0 auto; padding: 1.5rem 1rem; display: none; }
+.video-container { position: relative; width: 100%; height: 0; padding-bottom: 56.25%; background: #000; border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); margin-bottom: 1.5rem; }
+.video-container iframe, .video-container video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; object-fit: contain; }
+.channels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+.channel-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 1rem; border-radius: 12px; font-weight: bold; cursor: pointer; text-align: center; }
+.channel-btn.active { background: var(--accent-color); color: #000; }
 </style>
 </head>
 <body>
-<header>
-<div class="logo">⚽ MCR7 LIVE</div>
-</header>
-<main>
-<div class="video-container">
-<iframe id="main-player" src="" allowfullscreen></iframe>
+
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <h2>🔒 منطقة محمية</h2>
+    <p style="color:#94a3b8; margin-top:5px;">أدخل كلمة السر لمشاهدة البث</p>
+    <input type="password" id="sitePass" placeholder="كلمة السر">
+    <button onclick="checkPass()">دخول</button>
+  </div>
 </div>
-<div class="channels-grid" id="channels-list"></div>
+
+<header>
+  <div class="logo">⚽ MCR7 LIVE</div>
+</header>
+
+<main id="mainContent">
+  <div class="video-container" id="playerHolder">
+    <iframe id="iframePlayer" allowfullscreen style="display:none;"></iframe>
+    <video id="hlsPlayer" controls autoplay style="display:none;"></video>
+  </div>
+  <div class="channels-grid" id="channelsList"></div>
 </main>
+
 <script>
+const defaultPass = "1234"; // كلمة السر الافتراضية للموقع
 const defaultChannels = [
-{ name: 'قناة 1', url: 'https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID' },
-{ name: 'قناة 2', url: 'https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID' }
+  { name: 'قناة تجريبية M3U8', url: 'https://win.m3u8.hls.cam.quran.sa/hls/quran.m3u8' }
 ];
 
-const channels = JSON.parse(localStorage.getItem('app_channels')) || defaultChannels;
-const player = document.getElementById('main-player');
-const listContainer = document.getElementById('channels-list');
-
-function loadChannel(url, btn) {
-player.src = url;
-document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
-if(btn) btn.classList.add('active');
+function checkPass() {
+  const entered = document.getElementById('sitePass').value;
+  const savedPass = localStorage.getItem('mcr7_site_pass') || defaultPass;
+  if(entered === savedPass) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+    initApp();
+  } else {
+    alert('كلمة السر غير صحيحة!');
+  }
 }
 
-channels.forEach((ch, index) => {
-const btn = document.createElement('button');
-btn.className = 'channel-btn' + (index === 0 ? ' active' : '');
-btn.textContent = ch.name;
-btn.onclick = () => loadChannel(ch.url, btn);
-listContainer.appendChild(btn);
-});
+function initApp() {
+  const channels = JSON.parse(localStorage.getItem('app_channels')) || defaultChannels;
+  const listContainer = document.getElementById('channelsList');
+  listContainer.innerHTML = '';
 
-if(channels.length > 0) loadChannel(channels[0].url);
+  channels.forEach((ch, index) => {
+    const btn = document.createElement('button');
+    btn.className = 'channel-btn' + (index === 0 ? ' active' : '');
+    btn.textContent = ch.name;
+    btn.onclick = () => loadStream(ch.url, btn);
+    listContainer.appendChild(btn);
+  });
+
+  if(channels.length > 0) loadStream(channels[0].url);
+}
+
+function loadStream(url, btn) {
+  const iframe = document.getElementById('iframePlayer');
+  const video = document.getElementById('hlsPlayer');
+  
+  document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+
+  if(url.includes('.m3u8')) {
+    iframe.style.display = 'none';
+    iframe.src = '';
+    video.style.display = 'block';
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(url);
+      hls.attachMedia(video);
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = url;
+    }
+  } else {
+    video.style.display = 'none';
+    video.pause();
+    iframe.style.display = 'block';
+    iframe.src = url;
+  }
+}
 </script>
 </body>
 </html>
