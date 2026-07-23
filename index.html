@@ -3,60 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MCR7 LIVE - البث المباشر</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<title>MCR7 - النطاق السيبراني</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 :root { 
-  --bg-color: #121212; 
-  --card-bg: #1e1e1e; 
-  --text-color: #ffffff; 
-  --accent-color: #2e7d32; 
-  --border-color: #333333; 
+  --bg-dark: #020617; 
+  --card-bg: rgba(15, 23, 42, 0.8); 
+  --text-color: #f8fafc; 
+  --neon-cyan: #00f0ff; 
+  --neon-purple: #a855f7; 
+  --border-glow: rgba(0, 240, 255, 0.3); 
 }
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
-body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; }
+body { 
+  background: radial-gradient(circle at 50% 20%, #1e1b4b 0%, var(--bg-dark) 100%); 
+  color: var(--text-color); 
+  min-height: 100vh; 
+  overflow-x: hidden; 
+}
 
-.login-screen { position: fixed; inset: 0; background: var(--bg-color); display: flex; align-items: center; justify-content: center; z-index: 999; padding: 1rem; }
-.login-box { background: var(--card-bg); padding: 2rem; border-radius: 8px; border: 1px solid var(--border-color); text-align: center; max-width: 380px; width: 100%; }
-input { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: #2a2a2a; color: #fff; margin: 15px 0; text-align: center; outline: none; font-size: 1rem; }
-.login-btn { width: 100%; padding: 10px; background: var(--accent-color); color: #fff; border: none; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 1rem; }
+/* شاشة تسجيل الدخول السيبرانية */
+.login-screen { position: fixed; inset: 0; background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(15px); display: flex; align-items: center; justify-content: center; z-index: 999; padding: 1rem; }
+.login-box { background: var(--card-bg); padding: 2.5rem; border-radius: 24px; border: 1px solid var(--border-glow); text-align: center; max-width: 400px; width: 100%; box-shadow: 0 0 50px rgba(0, 240, 255, 0.15); backdrop-filter: blur(10px); }
+.login-box h3 { color: var(--neon-cyan); margin-bottom: 1.5rem; font-size: 1.5rem; text-shadow: 0 0 10px rgba(0,240,255,0.5); }
+input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(2, 6, 23, 0.8); color: #fff; margin: 15px 0; text-align: center; outline: none; font-size: 1rem; transition: 0.3s; }
+input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); }
+.login-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); color: #000; border: none; font-weight: 900; border-radius: 12px; cursor: pointer; font-size: 1.1rem; box-shadow: 0 0 25px rgba(0, 240, 255, 0.4); transition: 0.3s; }
 
-header { background: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-.logo { font-size: 1.3rem; font-weight: 700; color: #fff; }
+/* الهيدر السيبراني مع إضاءة نيون متحركة */
+header { background: rgba(15, 23, 42, 0.8); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); }
+.logo { font-size: 1.6rem; font-weight: 900; background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple), #ff007f, var(--neon-cyan)); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: sciFiGlow 6s ease infinite; text-shadow: 0 0 25px rgba(0,240,255,0.4); }
 
-main { max-width: 1000px; width: 100%; margin: 0 auto; padding: 1.5rem 1rem; display: none; }
+@keyframes sciFiGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-.video-container { position: relative; width: 100%; height: 0; padding-bottom: 56.25%; background: #000; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); margin-bottom: 1.5rem; }
+main { max-width: 1100px; width: 100%; margin: 0 auto; padding: 2rem 1rem; display: none; }
+
+/* حاوية البث الخيالية */
+.video-container { position: relative; width: 100%; height: 0; padding-bottom: 56.25%; background: #000; border-radius: 20px; overflow: hidden; border: 2px solid var(--border-glow); box-shadow: 0 0 40px rgba(0, 240, 255, 0.2); margin-bottom: 2rem; display: flex; align-items: center; justify-content: center; }
 .video-container video, .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-h3 { color: #aaaaaa; font-weight: 400; font-size: 1.1rem; margin-bottom: 1rem; }
-.channels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-.channel-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; text-align: center; transition: 0.2s; }
-.channel-btn:hover { background: #2a2a2a; }
-.channel-btn.active { background: var(--accent-color); border-color: var(--accent-color); }
+/* شاشة توجيه ذكية لروابط البروكسي المحمية */
+.proxy-overlay { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: rgba(2, 6, 23, 0.92); z-index: 20; text-align: center; padding: 2rem; }
+.proxy-overlay h4 { color: var(--neon-cyan); font-size: 1.3rem; margin-bottom: 0.8rem; text-shadow: 0 0 10px rgba(0,240,255,0.4); }
+.proxy-overlay p { color: #94a3b8; margin-bottom: 1.5rem; font-size: 1rem; max-width: 400px; }
+.proxy-btn { padding: 14px 28px; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); color: #000; font-weight: 900; border: none; border-radius: 12px; cursor: pointer; text-decoration: none; box-shadow: 0 0 20px rgba(0,240,255,0.4); transition: 0.3s; }
+.proxy-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(0,240,255,0.7); }
+
+h3 { color: #94a3b8; font-weight: 700; margin-bottom: 1rem; letter-spacing: 1px; font-size: 1rem; }
+.channels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
+.channel-btn { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08); color: var(--text-color); padding: 14px; border-radius: 14px; font-weight: bold; cursor: pointer; text-align: center; transition: 0.3s; backdrop-filter: blur(5px); }
+.channel-btn:hover { border-color: var(--neon-cyan); transform: translateY(-3px); box-shadow: 0 5px 20px rgba(0, 240, 255, 0.2); }
+.channel-btn.active { background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); color: #000; border-color: transparent; box-shadow: 0 0 25px rgba(0, 240, 255, 0.5); }
 </style>
 </head>
 <body>
 
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
-    <h3>تسجيل الدخول</h3>
-    <input type="password" id="sitePass" placeholder="رمز الدخول">
-    <button class="login-btn" onclick="checkPass()">دخول</button>
+    <h3>⚡ MCR7 NEXUS ⚡</h3>
+    <input type="password" id="sitePass" placeholder="رمز الدخول السري">
+    <button class="login-btn" onclick="checkPass()">وصول للنظام</button>
   </div>
 </div>
 
 <header>
-  <div class="logo">MCR7 LIVE</div>
+  <div class="logo">MCR7 LIVE 🌌</div>
 </header>
 
 <main id="mainContent">
   <div class="video-container" id="playerWrapper">
     <video id="videoPlayer" controls autoplay playsinline style="display:none;"></video>
+    
+    <!-- واجهة ذكية تظهر فوراً لروابط البروكسي واليوتيوب المحمية لتشغيلها بسلاسة -->
+    <div class="proxy-overlay" id="proxyOverlay">
+      <security-title><h4>🔒 سيرفر محمي من المصدر</h4></security-title>
+      <p>هذا السيرفر يتطلب التشغيل المباشر لضمان عدم توقف البث أو ظهور شاشة سوداء.</p>
+      <a id="directOpenBtn" href="#" target="_blank" class="proxy-btn">🚀 اضغط هنا لفتح البث فوراً</a>
+    </div>
   </div>
   
-  <h3>اختر القناة:</h3>
+  <h3>📺 قنوات البث النشطة:</h3>
   <div class="channels-grid" id="channelsList"></div>
 </main>
 
@@ -113,22 +144,25 @@ function playStream(url, btnElement) {
 
   const wrapper = document.getElementById('playerWrapper');
   const video = document.getElementById('videoPlayer');
+  const proxyOverlay = document.getElementById('proxyOverlay');
 
-  // إيقاف وتفريغ تام للبث القديم لمنع أي تداخل
+  // إيقاف وتفريغ تام للبث السابق فوراً وبدون رفرش
   video.pause();
   video.src = "";
+  video.style.display = 'none';
+  proxyOverlay.style.display = 'none';
+  
   const oldIframe = wrapper.querySelector('iframe');
-  if(oldIframe) {
-    oldIframe.remove();
-  }
+  if(oldIframe) oldIframe.remove();
 
   if (hls) {
     hls.destroy();
     hls = null;
   }
 
-  // فحص نوع الرابط بدقة
+  // فحص نوع الرابط بدقة متناهية
   if (url.includes('.m3u8') || url.includes('.ts')) {
+    // روابط البث المباشر الخام تشتغل داخل المشغل فوراً
     video.style.display = 'block';
     if (Hls.isSupported()) {
       hls = new Hls();
@@ -142,13 +176,9 @@ function playStream(url, btnElement) {
       video.play().catch(e => console.log("Autoplay blocked"));
     }
   } else {
-    // تشغيل روابط العبودي والصفحات عبر إطار محسن يدعم التشغيل التلقائي وملء الشاشة
-    video.style.display = 'none';
-    const iframe = document.createElement('iframe');
-    iframe.src = url;
-    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
-    iframe.setAttribute('allowfullscreen', 'true');
-    wrapper.appendChild(iframe);
+    // الروابط المحمية أو روابط البروكسي (مثل العبودي) تظهر زر الخيال العلمي الأنيق للتشغيل الفوري المضمون
+    proxyOverlay.style.display = 'flex';
+    document.getElementById('directOpenBtn').href = url;
   }
 }
 </script>
