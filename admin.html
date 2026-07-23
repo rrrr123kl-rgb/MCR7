@@ -3,112 +3,153 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة تحكم MCR7</title>
+<title>MCR7 - لوحة التحكم السيبرانية</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-:root { --bg-color: #0b0f19; --card-bg: #151f32; --text-color: #f8fafc; --accent-color: #00d26a; --border-color: #233148; --danger-color: #ef4444; }
+:root { 
+  --bg-dark: #020617; 
+  --card-bg: rgba(15, 23, 42, 0.85); 
+  --text-color: #f8fafc; 
+  --neon-cyan: #00f0ff; 
+  --neon-purple: #a855f7; 
+  --border-glow: rgba(0, 240, 255, 0.3); 
+}
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
-body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; padding: 1.5rem 1rem; }
-.login-screen { position: fixed; inset: 0; background: var(--bg-color); display: flex; align-items: center; justify-content: center; z-index: 999; padding: 1rem; }
-.login-box { background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color); text-align: center; max-width: 400px; width: 100%; }
-.admin-container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color); display: none; }
-h1, h2 { color: var(--accent-color); margin-bottom: 1rem; text-align: center; }
-.sec-card { background: var(--bg-color); border: 1px solid var(--border-color); padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; }
-label { display: block; font-size: 0.9rem; color: #94a3b8; margin-bottom: 5px; }
-input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color); margin-bottom: 10px; outline: none; }
-button { width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; font-size: 1rem; }
-.save-btn { background: var(--accent-color); color: #000; }
-.add-btn { background: #3b82f6; color: white; margin-bottom: 10px; }
-.delete-btn { background: var(--danger-color); color: white; padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; float: left; width: auto; }
+body { 
+  background: radial-gradient(circle at 50% 10%, #1e1b4b 0%, var(--bg-dark) 100%); 
+  color: var(--text-color); 
+  min-height: 100vh; 
+  padding: 1.5rem; 
+}
+
+.admin-container { max-width: 800px; margin: 0 auto; }
+.header-box { text-align: center; margin-bottom: 2rem; }
+.header-box h1 { font-size: 2rem; background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 20px rgba(0,240,255,0.4); }
+
+.card { background: var(--card-bg); border: 1px solid var(--border-glow); border-radius: 20px; padding: 1.5rem; margin-bottom: 1.5rem; backdrop-filter: blur(10px); box-shadow: 0 0 30px rgba(0,240,255,0.1); }
+.card h3 { color: var(--neon-cyan); margin-bottom: 1rem; font-size: 1.2rem; }
+
+input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(2, 6, 23, 0.8); color: #fff; margin-bottom: 1rem; outline: none; font-size: 1rem; transition: 0.3s; }
+input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
+
+.btn { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); color: #000; border: none; font-weight: 900; border-radius: 10px; cursor: pointer; font-size: 1rem; transition: 0.3s; box-shadow: 0 0 15px rgba(0,240,255,0.3); }
+.btn:hover { transform: scale(1.02); }
+.btn-danger { background: #ef4444; color: #fff; box-shadow: 0 0 15px rgba(239,68,68,0.4); margin-top: 5px; width: auto; padding: 6px 12px; font-size: 0.85rem; }
+
+.item-row { background: rgba(2, 6, 23, 0.6); border: 1px solid rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 </style>
 </head>
 <body>
 
-<div class="login-screen" id="adminLogin">
-  <div class="login-box">
-    <h2>⚙️ دخول الأدمن</h2>
-    <input type="password" id="adminPassInput" placeholder="رمز دخول لوحة التحكم">
-    <button class="save-btn" onclick="loginAdmin()">دخول</button>
-  </div>
-</div>
-
-<div class="admin-container" id="adminMain">
-  <h1>⚙️ لوحة تحكم MCR7</h1>
-
-  <!-- قسم تغيير باسورد الموقع -->
-  <div class="sec-card">
-    <h3>🔑 تغيير كلمة سر الموقع الرئيسية:</h3>
-    <br>
-    <label>كلمة السر الجديدة للموقع:</label>
-    <input type="text" id="newSitePass" placeholder="أدخلي رمز جديد هنا">
-    <button class="save-btn" onclick="changeSitePass()">حفظ كلمة السر الجديدة</button>
+<div class="admin-container">
+  <div class="header-box">
+    <h1>⚡ MCR7 NEXUS ADMIN ⚡</h1>
+    <p style="color: #94a3b8;">لوحة التحكم السيبرانية المركزية</p>
   </div>
 
-  <!-- قسم إدارة القنوات -->
-  <div class="sec-card">
-    <h3>📺 إدارة القنوات والبث:</h3>
-    <br>
-    <div id="channels-editor"></div>
-    <button class="add-btn" onclick="addChannel()">➕ إضافة قناة جديدة</button>
-    <button class="save-btn" onclick="saveChannels()">💾 حفظ القنوات</button>
+  <!-- قسم تغيير رمز الدخول -->
+  <div class="card">
+    <h3>🔐 تغيير رمز الدخول السري للموقع</h3>
+    <input type="password" id="newPass" placeholder="أدخل الرمز السري الجديد">
+    <button class="btn" onclick="savePassword()">تحديث الرمز السري</button>
+  </div>
+
+  <!-- قسم إضافة القنوات -->
+  <div class="card">
+    <h3>📺 إدارة القنوات وبث المباشر</h3>
+    <input type="text" id="chName" placeholder="اسم القناة (مثال: beIN Sports 1)">
+    <input type="text" id="chUrl" placeholder="رابط البث (.m3u8 أو رابط العبودي)">
+    <button class="btn" onclick="addChannel()">إضافة القناة للنظام</button>
+    <div id="channelsList" style="margin-top: 15px;"></div>
+  </div>
+
+  <!-- قسم جدول المباريات -->
+  <div class="card">
+    <h3>⚽ إضافة مباراة جديدة لجدول العرض</h3>
+    <input type="text" id="team1" placeholder="الفريق الأول (مثال: ريال مدريد)">
+    <input type="text" id="team2" placeholder="الفريق الثاني (مثال: برشلونة)">
+    <input type="text" id="matchTime" placeholder="التوقيت (مثال: اليوم 10:00 مساءً)">
+    <button class="btn" onclick="addMatch()">إضافة المباراة للجدول</button>
+    <div id="matchesList" style="margin-top: 15px;"></div>
   </div>
 </div>
 
 <script>
-const ADMIN_PASS = "admin123"; // رمز لوحة التحكم الخاص بكِ
+// تحميل البيانات عند فتح اللوحة
+let channels = JSON.parse(localStorage.getItem('app_channels')) || [];
+let matches = JSON.parse(localStorage.getItem('app_matches')) || [];
 
-function loginAdmin() {
-  const input = document.getElementById('adminPassInput').value;
-  if(input === ADMIN_PASS) {
-    document.getElementById('adminLogin').style.display = 'none';
-    document.getElementById('adminMain').style.display = 'block';
-    renderEditor();
-  } else {
-    alert('رمز الأدمن غير صحيح!');
-  }
-}
+function renderAll() {
+  // عرض القنوات
+  const chContainer = document.getElementById('channelsList');
+  chContainer.innerHTML = '';
+  channels.forEach((ch, idx) => {
+    chContainer.innerHTML += `
+      <div class="item-row">
+        <span><b>${ch.name}</b></span>
+        <button class="btn btn-danger" onclick="deleteChannel(${idx})">حذف</button>
+      </div>`;
+  });
 
-function changeSitePass() {
-  const newP = document.getElementById('newSitePass').value.trim();
-  if(!newP) { alert('الرجاء كتابة رمز صحيح'); return; }
-  localStorage.setItem('mcr7_site_pass', newP);
-  alert('تم تغيير كلمة سر الموقع بنجاح! 🎉 الرمز الجديد هو: ' + newP);
-}
-
-let channels = JSON.parse(localStorage.getItem('app_channels')) || [
-  { name: 'قناة تجريبية M3U8', url: 'https://win.m3u8.hls.cam.quran.sa/hls/quran.m3u8' }
-];
-
-function renderEditor() {
-  const container = document.getElementById('channels-editor');
-  container.innerHTML = '';
-  channels.forEach((ch, index) => {
-    container.innerHTML += `
-      <div style="border-bottom:1px solid #233148; padding-bottom:10px; margin-bottom:10px;">
-        <button class="delete-btn" onclick="deleteChannel(${index})">حذف</button>
-        <label>اسم القناة:</label>
-        <input type="text" value="${ch.name}" onchange="channels[${index}].name = this.value">
-        <label>رابط البث (m3u8 / embed / mp4 / youtube):</label>
-        <input type="text" value="${ch.url}" onchange="channels[${index}].url = this.value">
-      </div>
-    `;
+  // عرض المباريات
+  const mContainer = document.getElementById('matchesList');
+  mContainer.innerHTML = '';
+  matches.forEach((m, idx) => {
+    mContainer.innerHTML += `
+      <div class="item-row">
+        <span>⚽ ${m.team1} VS ${m.team2} (${m.time})</span>
+        <button class="btn btn-danger" onclick="deleteMatch(${idx})">حذف</button>
+      </div>`;
   });
 }
 
+function savePassword() {
+  const p = document.getElementById('newPass').value;
+  if(!p) return alert('يرجى كتابة الرمز الجديد!');
+  localStorage.setItem('mcr7_site_pass', p);
+  alert('تم تغيير الرمز السري بنجاح!');
+  document.getElementById('newPass').value = '';
+}
+
 function addChannel() {
-  channels.push({ name: 'قناة جديدة', url: '' });
-  renderEditor();
-}
-
-function deleteChannel(index) {
-  channels.splice(index, 1);
-  renderEditor();
-}
-
-function saveChannels() {
+  const name = document.getElementById('chName').value;
+  const url = document.getElementById('chUrl').value;
+  if(!name || !url) return alert('يرجى ملء كافة الحقول!');
+  channels.push({name, url});
   localStorage.setItem('app_channels', JSON.stringify(channels));
-  alert('تم حفظ وتحديث القنوات بنجاح! 🎉');
+  document.getElementById('chName').value = '';
+  document.getElementById('chUrl').value = '';
+  renderAll();
+  alert('تمت إضافة القناة بنجاح!');
 }
+
+function deleteChannel(idx) {
+  channels.splice(idx, 1);
+  localStorage.setItem('app_channels', JSON.stringify(channels));
+  renderAll();
+}
+
+function addMatch() {
+  const team1 = document.getElementById('team1').value;
+  const team2 = document.getElementById('team2').value;
+  const time = document.getElementById('matchTime').value;
+  if(!team1 || !team2 || !time) return alert('يرجى إكمال تفاصيل المباراة!');
+  matches.push({team1, team2, time});
+  localStorage.setItem('app_matches', JSON.stringify(matches));
+  document.getElementById('team1').value = '';
+  document.getElementById('team2').value = '';
+  document.getElementById('matchTime').value = '';
+  renderAll();
+  alert('تمت إضافة المباراة للجدول بنجاح!');
+}
+
+function deleteMatch(idx) {
+  matches.splice(idx, 1);
+  localStorage.setItem('app_matches', JSON.stringify(matches));
+  renderAll();
+}
+
+renderAll();
 </script>
 </body>
 </html>
