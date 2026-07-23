@@ -312,7 +312,6 @@
             border: 1px dashed var(--border);
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body data-theme="dark">
 
@@ -338,13 +337,13 @@
             <button class="theme-toggle" onclick="toggleTheme()">🌓 وضع الإضاءة</button>
         </div>
 
-        <!-- 1. شاشة العرض بالأعلى (تستقبل القناة عند اختيارها) -->
+        <!-- 1. شاشة العرض بالأعلى (يظهر فيها زر التشغيل الخارجي عند النقر على القناة) -->
         <div id="player-section">
             <div class="player-header">
                 <h3 id="player-title" class="player-title">📺 شاشة العرض المباشر</h3>
             </div>
             <div id="player-box">
-                <div class="player-placeholder">👆 اختر أي قناة من الأسفل لتظهر هنا وجاهزيتها للتشغيل السلس 🚀</div>
+                <div class="player-placeholder">👆 اختر أي قناة من الأسفل ليظهر زر التشغيل الخارجي الخاص بها هنا 🚀</div>
             </div>
         </div>
 
@@ -364,7 +363,7 @@
             </div>
         </div>
 
-        <!-- 3. قسم القنوات (تم إلغاء جدول المباريات) -->
+        <!-- 3. قسم القنوات -->
         <div class="section-title">📺 قنوات البث الفضائي المباشر</div>
         <div id="channels" class="grid-cards">
             <div class="empty-msg">جاري تحميل القنوات...</div>
@@ -398,54 +397,23 @@
             body.setAttribute("data-theme", body.getAttribute("data-theme") === "dark" ? "light" : "dark");
         }
 
-        // الخطوة الأولى: النقر على القناة لتجهيزها في شاشة العرض فوق
+        // عند النقر على القناة: يظهر زر التشغيل الخارجي في الشاشة العليا فوق
         function selectChannel(url, title) {
             const playerBox = document.getElementById('player-box');
             const titleElem = document.getElementById('player-title');
             
-            titleElem.innerText = "🎯 تم اختيار: " + title;
+            titleElem.innerText = "🎯 القناة المختارة: " + title;
             window.scrollTo({top: 0, behavior: 'smooth'});
 
-            // عرض واجهة التجهيز في الشاشة العليا ليقوم المستخدم بتشغيلها
             playerBox.innerHTML = `
                 <div style="text-align:center; padding: 35px; background: rgba(0,0,0,0.3); border-radius: 14px; border: 1px solid var(--border);">
-                    <p style="color:var(--neon-yellow); font-weight:bold; font-size:17px; margin-bottom:15px;">القناة جاهزة الآن: ${title}</p>
-                    <button class="btn-action" onclick="launchStream('${url}', '${title}')" style="padding: 12px 30px; font-size:16px; cursor:pointer;">▶ اضغط هنا لبدء التشغيل الفوري</button>
+                    <p style="color:var(--neon-yellow); font-weight:bold; font-size:18px; margin-bottom:20px;">جاهز للانتقال إلى: ${title}</p>
+                    <a href="${url}" target="_blank" class="btn-action btn-external" style="padding: 14px 30px; font-size:17px; display:inline-block; text-decoration:none;">🚀 اضغط هنا للتشغيل الخارجي والانتقال ↗</a>
                 </div>
             `;
         }
 
-        // الخطوة الثانية: التشغيل الفعلي داخل الشاشة
-        function launchStream(url, title) {
-            const playerBox = document.getElementById('player-box');
-            const titleElem = document.getElementById('player-title');
-            
-            titleElem.innerText = "🔴 عرض مباشر: " + title;
-
-            if (url.includes('.m3u8') || url.includes('.ts')) {
-                playerBox.innerHTML = `<video id="video-player" controls autoplay style="width:100%; max-height:480px; background:#000; border-radius:12px; outline:none;"></video>`;
-                const video = document.getElementById('video-player');
-                
-                if (Hls.isSupported()) {
-                    const hls = new Hls();
-                    hls.loadSource(url);
-                    hls.attachMedia(video);
-                    hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
-                } else if (video.canPlayType('application/vnd.apple.mpegurl') || video.canPlayType('video/mp2t')) {
-                    video.src = url;
-                    video.addEventListener('loadedmetadata', () => video.play());
-                }
-            } else {
-                playerBox.innerHTML = `
-                    <div style="text-align:center; padding: 30px;">
-                        <p style="color:var(--text-main); font-weight:bold; margin-bottom:15px;">هذا الرابط يتطلب فتحاً خارجياً:</p>
-                        <a href="${url}" target="_blank" class="btn-action btn-external" style="padding: 12px 25px; font-size:16px; display:inline-block;">افتح الرابط بتبويب جديد ↗</a>
-                    </div>
-                `;
-            }
-        }
-
-        // جلب القنوات فقط
+        // جلب القنوات
         fetch('channels.json')
             .then(res => res.json())
             .then(data => {
@@ -463,8 +431,7 @@
                                     <span class="match-title">${title}</span>
                                 </div>
                                 <div class="actions">
-                                    <button class="btn-action" onclick="selectChannel('${link}', '${title}')">اختيار للقناة</button>
-                                    <a class="btn-action btn-external" href="${link}" target="_blank">رابط خارجي</a>
+                                    <button class="btn-action" onclick="selectChannel('${link}', '${title}')">اختر القناة</button>
                                 </div>
                             </div>
                         `;
