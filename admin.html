@@ -9,66 +9,106 @@
 :root { --bg-color: #0b0f19; --card-bg: #151f32; --text-color: #f8fafc; --accent-color: #00d26a; --border-color: #233148; --danger-color: #ef4444; }
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
 body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; padding: 1.5rem 1rem; }
-.admin-container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-h1 { color: var(--accent-color); font-size: 1.5rem; margin-bottom: 1.5rem; text-align: center; }
-.channel-item { background: var(--bg-color); border: 1px solid var(--border-color); padding: 1rem; border-radius: 12px; margin-bottom: 1rem; }
+.login-screen { position: fixed; inset: 0; background: var(--bg-color); display: flex; align-items: center; justify-content: center; z-index: 999; padding: 1rem; }
+.login-box { background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color); text-align: center; max-width: 400px; width: 100%; }
+.admin-container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color); display: none; }
+h1, h2 { color: var(--accent-color); margin-bottom: 1rem; text-align: center; }
+.sec-card { background: var(--bg-color); border: 1px solid var(--border-color); padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; }
 label { display: block; font-size: 0.9rem; color: #94a3b8; margin-bottom: 5px; }
 input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color); margin-bottom: 10px; outline: none; }
-.btn-group { display: flex; gap: 10px; margin-top: 1.5rem; }
-button { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; font-size: 1rem; }
-.save-btn { background: var(--accent-color); color: white; }
-.add-btn { background: #3b82f6; color: white; }
-.delete-btn { background: var(--danger-color); color: white; padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; float: left; }
+button { width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; font-size: 1rem; }
+.save-btn { background: var(--accent-color); color: #000; }
+.add-btn { background: #3b82f6; color: white; margin-bottom: 10px; }
+.delete-btn { background: var(--danger-color); color: white; padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; float: left; width: auto; }
 </style>
 </head>
 <body>
-<div class="admin-container">
-<h1>⚙️ لوحة تحكم القنوات - MCR7</h1>
-<div id="channels-editor"></div>
-<div class="btn-group">
-<button class="add-btn" onclick="addChannel()">➕ إضافة قناة جديدة</button>
-<button class="save-btn" onclick="saveAll()">💾 حفظ التغييرات</button>
+
+<div class="login-screen" id="adminLogin">
+  <div class="login-box">
+    <h2>⚙️ دخول الأدمن</h2>
+    <input type="password" id="adminPassInput" placeholder="رمز دخول لوحة التحكم">
+    <button class="save-btn" onclick="loginAdmin()">دخول</button>
+  </div>
 </div>
+
+<div class="admin-container" id="adminMain">
+  <h1>⚙️ لوحة تحكم MCR7</h1>
+
+  <!-- قسم تغيير باسورد الموقع -->
+  <div class="sec-card">
+    <h3>🔑 تغيير كلمة سر الموقع الرئيسية:</h3>
+    <br>
+    <label>كلمة السر الجديدة للموقع:</label>
+    <input type="text" id="newSitePass" placeholder="أدخلي رمز جديد هنا">
+    <button class="save-btn" onclick="changeSitePass()">حفظ كلمة السر الجديدة</button>
+  </div>
+
+  <!-- قسم إدارة القنوات -->
+  <div class="sec-card">
+    <h3>📺 إدارة القنوات والبث:</h3>
+    <br>
+    <div id="channels-editor"></div>
+    <button class="add-btn" onclick="addChannel()">➕ إضافة قناة جديدة</button>
+    <button class="save-btn" onclick="saveChannels()">💾 حفظ القنوات</button>
+  </div>
 </div>
+
 <script>
+const ADMIN_PASS = "admin123"; // رمز لوحة التحكم الخاص بكِ
+
+function loginAdmin() {
+  const input = document.getElementById('adminPassInput').value;
+  if(input === ADMIN_PASS) {
+    document.getElementById('adminLogin').style.display = 'none';
+    document.getElementById('adminMain').style.display = 'block';
+    renderEditor();
+  } else {
+    alert('رمز الأدمن غير صحيح!');
+  }
+}
+
+function changeSitePass() {
+  const newP = document.getElementById('newSitePass').value.trim();
+  if(!newP) { alert('الرجاء كتابة رمز صحيح'); return; }
+  localStorage.setItem('mcr7_site_pass', newP);
+  alert('تم تغيير كلمة سر الموقع بنجاح! 🎉 الرمز الجديد هو: ' + newP);
+}
+
 let channels = JSON.parse(localStorage.getItem('app_channels')) || [
-{ name: 'قناة 1', url: 'https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID' },
-{ name: 'قناة 2', url: 'https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID' }
+  { name: 'قناة تجريبية M3U8', url: 'https://win.m3u8.hls.cam.quran.sa/hls/quran.m3u8' }
 ];
 
-const container = document.getElementById('channels-editor');
-
 function renderEditor() {
-container.innerHTML = '';
-channels.forEach((ch, index) => {
-container.innerHTML += `
-<div class="channel-item">
-<button class="delete-btn" onclick="deleteChannel(${index})">حذف</button>
-<label>اسم القناة:</label>
-<input type="text" value="${ch.name}" onchange="channels[${index}].name = this.value">
-<label>رابط البث (Embed URL / M3U8):</label>
-<input type="text" value="${ch.url}" onchange="channels[${index}].url = this.value">
-</div>
-`;
-});
+  const container = document.getElementById('channels-editor');
+  container.innerHTML = '';
+  channels.forEach((ch, index) => {
+    container.innerHTML += `
+      <div style="border-bottom:1px solid #233148; padding-bottom:10px; margin-bottom:10px;">
+        <button class="delete-btn" onclick="deleteChannel(${index})">حذف</button>
+        <label>اسم القناة:</label>
+        <input type="text" value="${ch.name}" onchange="channels[${index}].name = this.value">
+        <label>رابط البث (m3u8 / embed / mp4 / youtube):</label>
+        <input type="text" value="${ch.url}" onchange="channels[${index}].url = this.value">
+      </div>
+    `;
+  });
 }
 
 function addChannel() {
-channels.push({ name: 'قناة جديدة', url: '' });
-renderEditor();
+  channels.push({ name: 'قناة جديدة', url: '' });
+  renderEditor();
 }
 
 function deleteChannel(index) {
-channels.splice(index, 1);
-renderEditor();
+  channels.splice(index, 1);
+  renderEditor();
 }
 
-function saveAll() {
-localStorage.setItem('app_channels', JSON.stringify(channels));
-alert('تم حفظ القنوات بنجاح! 🎉');
+function saveChannels() {
+  localStorage.setItem('app_channels', JSON.stringify(channels));
+  alert('تم حفظ وتحديث القنوات بنجاح! 🎉');
 }
-
-renderEditor();
 </script>
 </body>
 </html>
