@@ -3,11 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="referrer" content="no-referrer">
 <title>MCR7 - البث المباشر</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
-<!-- مكتبة HLS لدعم كافة الجودات والسيرفرات -->
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 :root { --bg-color: #0b0f19; --card-bg: #151f32; --text-color: #f8fafc; --accent-color: #00d26a; --border-color: #233148; }
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
@@ -23,11 +20,11 @@ header { background: var(--card-bg); border-bottom: 1px solid var(--border-color
 
 main { max-width: 1200px; width: 100%; margin: 0 auto; padding: 1.5rem 1rem; display: none; }
 .video-container { position: relative; width: 100%; height: 0; padding-bottom: 56.25%; background: #000; border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); margin-bottom: 1.5rem; }
-.video-container iframe, .video-container video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; object-fit: contain; }
+.video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
 .channels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
-.channel-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 1rem; border-radius: 12px; font-weight: bold; cursor: pointer; text-align: center; transition: all 0.2s ease; }
-.channel-btn:hover, .channel-btn.active { background: var(--accent-color); color: #000; }
+.channel-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 1rem; border-radius: 12px; font-weight: bold; cursor: pointer; text-align: center; }
+.channel-btn.active { background: var(--accent-color); color: #000; }
 </style>
 </head>
 <body>
@@ -35,7 +32,6 @@ main { max-width: 1200px; width: 100%; margin: 0 auto; padding: 1.5rem 1rem; dis
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
     <h2>🔒 MCR7 LIVE</h2>
-    <p style="color:#94a3b8; margin-top:5px;">أدخلي رمز الدخول لمشاهدة البث</p>
     <input type="password" id="sitePass" placeholder="رمز الدخول">
     <button onclick="checkPass()">دخول</button>
   </div>
@@ -47,9 +43,7 @@ main { max-width: 1200px; width: 100%; margin: 0 auto; padding: 1.5rem 1rem; dis
 
 <main id="mainContent">
   <div class="video-container">
-    <!-- مشغل يدعم حماية الإعلانات والجودات المتعددة -->
-    <iframe id="iframePlayer" allow="autoplay; fullscreen; encrypted-media" allowfullscreen style="display:none;"></iframe>
-    <video id="hlsPlayer" controls autoplay playsinline style="display:none;"></video>
+    <iframe id="mainPlayer" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>
   </div>
   
   <h3 style="margin-bottom: 1rem; color: #94a3b8;">📺 اختيار السيرفر / القناة:</h3>
@@ -58,7 +52,6 @@ main { max-width: 1200px; width: 100%; margin: 0 auto; padding: 1.5rem 1rem; dis
 
 <script>
 const DEFAULT_PASS = "1234";
-let hlsInstance = null;
 
 function checkPass() {
   const entered = document.getElementById('sitePass').value;
@@ -68,7 +61,7 @@ function checkPass() {
     document.getElementById('mainContent').style.display = 'block';
     loadChannels();
   } else {
-    alert('كلمة السر غير صحيحة!');
+    alert('رمز الدخول غير صحيح!');
   }
 }
 
@@ -80,9 +73,7 @@ async function loadChannels() {
   } catch(e) {}
 
   if(!channels || channels.length === 0) {
-    channels = JSON.parse(localStorage.getItem('app_channels')) || [
-      { name: 'سيرفر تجريبي M3U8', url: 'https://win.m3u8.hls.cam.quran.sa/hls/quran.m3u8' }
-    ];
+    channels = JSON.parse(localStorage.getItem('app_channels')) || [];
   }
 
   renderButtons(channels);
@@ -100,69 +91,15 @@ function renderButtons(channels) {
     container.appendChild(btn);
   });
 
-  if(channels.length > 0) playStream(channels[0].url, container.firstChild);
+  if(channels.length > 0) playStream(channels.url || channels[0].url, container.firstChild);
 }
 
 function playStream(url, btnElement) {
-  const iframe = document.getElementById('iframePlayer');
-  const video = document.getElementById('hlsPlayer');
-
   if(btnElement) {
     document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
     btnElement.classList.add('active');
   }
-
-  // إيقاف وتنظيف أي بث سابق
-  if (hlsInstance) {
-    hlsInstance.destroy();
-    hlsInstance = null;
-  }
-  iframe.src = '';
-  video.pause();
-  video.src = '';
-
-  // فحص الرابط وإدارته تلقائياً
-  if(url.includes('.m3u8') || url.includes('.hls')) {
-    iframe.style.display = 'none';
-    video.style.display = 'block';
-
-    if (Hls.isSupported()) {
-      hlsInstance = new Hls({
-        enableWorker: true,
-        lowLatencyMode: true,
-        backBufferLength: 90
-      });
-      hlsInstance.loadSource(url);
-      hlsInstance.attachMedia(video);
-      hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
-        video.play().catch(()=>{});
-      });
-      
-      // معالجة انقطاع البث المفاجئ وإعادة الاتصال تلقائياً
-      hlsInstance.on(Hls.Events.ERROR, function (event, data) {
-        if (data.fatal) {
-          switch (data.type) {
-            case Hls.ErrorTypes.NETWORK_ERROR:
-              hlsInstance.startLoad();
-              break;
-            case Hls.ErrorTypes.MEDIA_ERROR:
-              hlsInstance.recoverMediaError();
-              break;
-            default:
-              hlsInstance.destroy();
-              break;
-          }
-        }
-      });
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = url;
-      video.play().catch(()=>{});
-    }
-  } else {
-    video.style.display = 'none';
-    iframe.style.display = 'block';
-    iframe.src = url;
-  }
+  document.getElementById('mainPlayer').src = url;
 }
 </script>
 </body>
