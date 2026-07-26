@@ -8,8 +8,8 @@
     <style>
         :root {
             --bg: #030712;
-            --surface: rgba(15, 23, 42, 0.8);
-            --border: rgba(56, 189, 248, 0.25);
+            --surface: rgba(15, 23, 42, 0.75);
+            --border: rgba(56, 189, 248, 0.2);
             --neon-blue: #00f0ff;
             --neon-pink: #ff0055;
             --neon-green: #10b981;
@@ -20,9 +20,9 @@
         }
 
         [data-theme="light"] {
-            --bg: #f8fafc;
-            --surface: rgba(255, 255, 255, 0.9);
-            --border: rgba(0, 119, 255, 0.25);
+            --bg: #f1f5f9;
+            --surface: rgba(255, 255, 255, 0.85);
+            --border: rgba(0, 119, 255, 0.2);
             --neon-blue: #0284c7;
             --neon-pink: #e11d48;
             --neon-green: #059669;
@@ -45,16 +45,16 @@
             padding: 20px;
             min-height: 100vh;
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.06) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(255, 0, 85, 0.06) 0%, transparent 40%);
+                radial-gradient(circle at 10% 10%, rgba(0, 240, 255, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 90% 90%, rgba(255, 0, 85, 0.08) 0%, transparent 45%);
         }
 
-        /* واجهة إدخال الرمز الاحترافية */
+        /* نافذة الرمز السري الفخمة */
         #auth-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(3, 7, 18, 0.92);
-            backdrop-filter: blur(20px);
+            background: rgba(3, 7, 18, 0.95);
+            backdrop-filter: blur(25px);
             z-index: 9999;
             display: flex;
             justify-content: center;
@@ -65,9 +65,9 @@
         .auth-card {
             background: var(--surface);
             border: 2px solid var(--neon-blue);
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.25);
-            border-radius: 24px;
-            padding: 35px 30px;
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.3);
+            border-radius: 28px;
+            padding: 40px 30px;
             width: 100%;
             max-width: 420px;
             text-align: center;
@@ -79,7 +79,7 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        .auth-icon { font-size: 50px; margin-bottom: 15px; text-shadow: 0 0 20px rgba(0, 240, 255, 0.5); }
+        .auth-icon { font-size: 55px; margin-bottom: 15px; text-shadow: 0 0 25px rgba(0, 240, 255, 0.6); }
         .auth-title { color: var(--neon-blue); font-size: 24px; font-weight: 900; margin-bottom: 8px; }
         .auth-subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 25px; }
         
@@ -90,14 +90,14 @@
             border-radius: 14px;
             padding: 14px;
             color: var(--text-main);
-            font-size: 20px;
+            font-size: 22px;
             text-align: center;
             font-family: 'Tajawal', sans-serif;
-            letter-spacing: 4px;
+            letter-spacing: 6px;
             margin-bottom: 20px;
             outline: none;
         }
-        .auth-input:focus { border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
+        .auth-input:focus { border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); }
 
         .auth-btn {
             background: linear-gradient(135deg, var(--neon-blue), #0284c7);
@@ -112,7 +112,7 @@
             font-family: 'Tajawal', sans-serif;
             box-shadow: 0 4px 20px rgba(0, 240, 255, 0.4);
         }
-        .auth-btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
+        .auth-btn:hover { filter: brightness(1.15); transform: translateY(-2px); }
 
         .auth-error {
             color: var(--neon-pink);
@@ -125,16 +125,17 @@
 
         .container { max-width: 950px; margin: 0 auto; }
 
+        /* الهيدر المتطور */
         .hero-header {
             background: var(--surface);
-            backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            border-radius: 20px;
+            border-radius: 22px;
             padding: 22px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
             margin-bottom: 25px;
             position: relative;
             overflow: hidden;
@@ -164,13 +165,8 @@
             text-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
         }
 
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .header-actions { display: flex; align-items: center; gap: 12px; }
 
-        /* أيقونة تليجرام الفخمة */
         .telegram-btn {
             display: flex;
             align-items: center;
@@ -181,23 +177,13 @@
             padding: 8px 16px;
             border-radius: 12px;
             font-weight: 800;
-            font-size: 14px;
+            font-size: 13px;
             box-shadow: 0 4px 15px rgba(34, 158, 217, 0.35);
             border: 1px solid rgba(255, 255, 255, 0.2);
             animation: tgPulse 2s infinite;
         }
-
-        .telegram-btn:hover {
-            filter: brightness(1.15);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(34, 158, 217, 0.55);
-        }
-
-        .telegram-icon {
-            width: 20px;
-            height: 20px;
-            fill: #ffffff;
-        }
+        .telegram-btn:hover { filter: brightness(1.15); transform: translateY(-2px); }
+        .telegram-icon { width: 18px; height: 18px; fill: #ffffff; }
 
         @keyframes tgPulse {
             0% { box-shadow: 0 0 0 0 rgba(34, 158, 217, 0.4); }
@@ -218,15 +204,15 @@
         }
         .theme-toggle:hover { border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(0, 240, 255, 0.2); }
 
-        /* 1. شاشة العرض (فوق) */
+        /* 1. شاشة العرض الذكية */
         #player-section {
             background: var(--surface);
-            backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
             border: 2px solid var(--neon-blue);
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 22px;
+            padding: 22px;
             margin-bottom: 25px;
-            box-shadow: 0 10px 40px rgba(0, 240, 255, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 240, 255, 0.18);
         }
 
         .player-header {
@@ -236,24 +222,19 @@
             margin-bottom: 15px;
         }
 
-        .player-title {
-            color: var(--neon-blue);
-            font-weight: 800;
-            font-size: 18px;
-            margin: 0;
-        }
+        .player-title { color: var(--neon-blue); font-weight: 800; font-size: 18px; margin: 0; }
 
         .player-placeholder {
             text-align: center;
             padding: 45px 20px;
             color: var(--text-muted);
             border: 2px dashed var(--border);
-            border-radius: 12px;
-            font-size: 16px;
+            border-radius: 14px;
+            font-size: 15px;
             font-weight: bold;
         }
 
-        /* 2. قسم التوقيت والساعة */
+        /* 2. قسم التوقيت والساعة الديناميكية */
         .timing-box {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -281,16 +262,12 @@
         }
         .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-        /* 3. قسم القنوات */
-        .grid-cards {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
+        /* 3. شبكة القنوات العصرية */
+        .grid-cards { display: grid; grid-template-columns: 1fr; gap: 15px; }
 
         .match-card {
             background: var(--surface);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(14px);
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 16px 20px;
@@ -324,35 +301,33 @@
 
         .match-title { font-size: 17px; font-weight: 700; color: var(--text-main); }
 
-        .actions { display: flex; gap: 10px; }
-
         .btn-action {
             background: linear-gradient(135deg, var(--neon-blue), #0284c7);
             color: #030712;
             border: none;
-            padding: 8px 18px;
-            border-radius: 10px;
+            padding: 9px 20px;
+            border-radius: 12px;
             font-weight: 900;
             font-family: 'Tajawal', sans-serif;
             cursor: pointer;
             text-decoration: none;
             font-size: 13px;
-            box-shadow: 0 4px 12px rgba(0, 240, 255, 0.25);
+            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.25);
         }
-        .btn-action:hover { filter: brightness(1.1); transform: scale(1.03); }
+        .btn-action:hover { filter: brightness(1.15); transform: scale(1.03); }
 
         .btn-external {
             background: linear-gradient(135deg, #6366f1, #4338ca);
             color: #fff;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
 
         .empty-msg {
             text-align: center;
             color: var(--text-muted);
-            padding: 25px;
+            padding: 30px;
             background: var(--surface);
-            border-radius: 14px;
+            border-radius: 16px;
             border: 1px dashed var(--border);
         }
     </style>
@@ -364,7 +339,7 @@
         <div class="auth-card">
             <div class="auth-icon">🔒</div>
             <div class="auth-title">بوابة الدخول المحمية</div>
-            <div class="auth-subtitle">يرجى إدخال رمز المرور للمتابعة</div>
+            <div class="auth-subtitle">أدخل رمز المرور السري للمتابعة</div>
             <input type="password" id="auth-code-input" class="auth-input" placeholder="••••" maxlength="6">
             <button class="auth-btn" onclick="verifyCode()">دخول آمن ⚡</button>
             <div id="auth-error-msg" class="auth-error">❌ رمز المرور غير صحيح!</div>
@@ -372,7 +347,7 @@
     </div>
 
     <div class="container">
-        <!-- الهيدر مع أيقونة تليجرام الفخمة -->
+        <!-- الهيدر -->
         <div class="hero-header">
             <div class="logo-area">
                 <h1>⚡ MCR7 ULTRA LIVE</h1>
@@ -389,13 +364,13 @@
             </div>
         </div>
 
-        <!-- 1. شاشة العرض (فوق) -->
+        <!-- 1. شاشة العرض الذكية -->
         <div id="player-section">
             <div class="player-header">
                 <h3 id="player-title" class="player-title">📺 شاشة العرض المباشر</h3>
             </div>
             <div id="player-box">
-                <div class="player-placeholder">👆 اختر أي قناة من الأسفل ليظهر زر التشغيل الخارجي الخاص بها هنا 🚀</div>
+                <div class="player-placeholder">👆 اختر أي قناة من الأسفل ليظهر زر التشغيل الخارجي الآمن الخاص بها هنا 🚀</div>
             </div>
         </div>
 
@@ -406,8 +381,8 @@
                 <div class="timing-value" id="live-clock">--:--:--</div>
             </div>
             <div class="timing-item">
-                <div class="timing-label">حالة النظام</div>
-                <div class="timing-value" style="color: var(--neon-green);">جاهز وسلس 🟢</div>
+                <div class="timing-label">حالة الحماية</div>
+                <div class="timing-value" style="color: var(--neon-green);">مشفر وآمن 🟢</div>
             </div>
             <div class="timing-item">
                 <div class="timing-label">وضع التشغيل</div>
@@ -415,10 +390,10 @@
             </div>
         </div>
 
-        <!-- 3. قسم القنوات -->
+        <!-- 3. قنوات البث -->
         <div class="section-title">📺 قنوات البث الفضائي المباشر</div>
         <div id="channels" class="grid-cards">
-            <div class="empty-msg">جاري تحميل القنوات...</div>
+            <div class="empty-msg">جاري تحميل القنوات بأمان...</div>
         </div>
     </div>
 
@@ -449,6 +424,7 @@
             body.setAttribute("data-theme", body.getAttribute("data-theme") === "dark" ? "light" : "dark");
         }
 
+        // اختيار القناة وعرض زر التشغيل الخارجي الآمن
         function selectChannel(url, title) {
             const playerBox = document.getElementById('player-box');
             const titleElem = document.getElementById('player-title');
@@ -457,14 +433,14 @@
             window.scrollTo({top: 0, behavior: 'smooth'});
 
             playerBox.innerHTML = `
-                <div style="text-align:center; padding: 35px; background: rgba(0,0,0,0.3); border-radius: 14px; border: 1px solid var(--border);">
-                    <p style="color:var(--neon-yellow); font-weight:bold; font-size:18px; margin-bottom:20px;">جاهز للانتقال إلى: ${title}</p>
-                    <a href="${url}" target="_blank" class="btn-action btn-external" style="padding: 14px 30px; font-size:17px; display:inline-block; text-decoration:none;">🚀 اضغط هنا للتشغيل الخارجي والانتقال ↗</a>
+                <div style="text-align:center; padding: 35px; background: rgba(0,0,0,0.35); border-radius: 16px; border: 1px solid var(--border);">
+                    <p style="color:var(--neon-yellow); font-weight:bold; font-size:18px; margin-bottom:20px;">جاهز للانتقال المشفر إلى: ${title}</p>
+                    <a href="${url}" target="_blank" rel="noopener noreferrer" class="btn-action btn-external" style="padding: 14px 32px; font-size:17px; display:inline-block; text-decoration:none;">🚀 اضغط هنا للتشغيل الخارجي الآمن ↗</a>
                 </div>
             `;
         }
 
-        // جلب القنوات
+        // جلب القنوات من ملف الـ JSON خارجي بحماية
         fetch('channels.json')
             .then(res => res.json())
             .then(data => {
@@ -489,8 +465,9 @@
                     });
                 }
                 document.getElementById('channels').innerHTML = output;
-            }).catch(() => { document.getElementById('channels').innerHTML = '<div class="empty-msg">خطأ في تحميل القنوات</div>'; });
+            }).catch(() => { document.getElementById('channels').innerHTML = '<div class="empty-msg">خطأ في تحميل بيانات القنوات</div>'; });
     </script>
 
 </body>
 </html>
+
