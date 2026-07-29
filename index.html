@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MCR7 - ULTRA SPORT | إشراف: محمد جواد</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" display="swap" rel="stylesheet">
     
-    <!-- استدعاء مكتبة المشغل الاحترافي Clappr لتشغيل روابط البث المباشر بدون أخطاء -->
+    <!-- استدعاء مكتبة المشغل الاحترافي Clappr -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-hlsjs-playback@latest/dist/clappr-hlsjs-playback.min.js"></script>
 
@@ -239,7 +239,6 @@
             font-weight: bold;
         }
 
-        /* تنسيق حاوية مشغل Clappr */
         #player-box {
             width: 100%;
             aspect-ratio: 16/9;
@@ -248,9 +247,10 @@
             overflow: hidden;
             border: 2px solid var(--neon-blue);
         }
-        #player-box > div {
+        #player-box > div, #player-box iframe {
             width: 100% !important;
             height: 100% !important;
+            border: none;
         }
 
         /* قسم التوقيت */
@@ -441,37 +441,52 @@
             body.setAttribute("data-theme", body.getAttribute("data-theme") === "dark" ? "light" : "dark");
         }
 
-        // دالة التشغيل الذكي عبر مكتبة Clappr لتشغيل روابط m3u8 و ts مباشرة وبدون شاشة سوداء
+        // نظام التشغيل المزدوج الذكي: يدعم الروابط المباشرة وصفحات الويب بالكامل بدون شاشة سوداء
         function selectChannel(url, title) {
             const titleElem = document.getElementById('player-title');
             titleElem.innerText = "🎯 القناة المعروضة: " + title;
             window.scrollTo({top: 0, behavior: 'smooth'});
 
-            // تدمير المشغل القديم إذا كان موجوداً لمنع تداخل الصوت
             if (currentInstance) {
-                currentInstance.destroy();
+                if (typeof currentInstance.destroy === 'function') {
+                    currentInstance.destroy();
+                }
+                currentInstance = null;
             }
 
-            // إعادة إنشاء حاوية المشغل نظيفة
             const wrapper = document.getElementById('player-container-wrapper');
             wrapper.innerHTML = '<div id="player-box"></div>';
 
-            // تشغيل الرابط مباشرة بالمشغل الاحترافي
-            currentInstance = new Clappr.Player({
-                source: url,
-                plugins: [HlsjsPlayback],
-                parentId: "#player-box",
-                autoPlay: true,
-                height: '100%',
-                width: '100%',
-                playback: {
-                    hlsjsConfig: {
-                        xhrSetup: function (xhr, url) {
-                            xhr.withCredentials = false; // تجاوز حظر الـ CORS وسيرفرات البث
+            // التحقق مما إذا كان الرابط رابط فيديو مباشر (m3u8 أو mp4 أو ts) أو رابط صفحة ويب
+            if (url.includes('.m3u8') || url.includes('.ts') || url.includes('.mp4')) {
+                try {
+                    currentInstance = new Clappr.Player({
+                        source: url,
+                        plugins: [HlsjsPlayback],
+                        parentId: "#player-box",
+                        autoPlay: true,
+                        height: '100%',
+                        width: '100%',
+                        playback: {
+                            hlsjsConfig: {
+                                xhrSetup: function (xhr, url) {
+                                    xhr.withCredentials = false;
+                                }
+                            }
                         }
-                    }
+                    });
+                } catch (e) {
+                    fallbackToIframe(url);
                 }
-            });
+            } else {
+                // إذا كان الرابط صفحة ويب (مثل روابط البث التي تأتي من ياسين أو المواقع الأخرى)، سيتم عرضها فوراً عبر الإطار الآمن
+                fallbackToIframe(url);
+            }
+        }
+
+        function fallbackToIframe(url) {
+            const playerBox = document.getElementById('player-box');
+            playerBox.innerHTML = `<iframe src="${url}" style="width:100%; height:100%; border:none;" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
         }
 
         // جلب القنوات من لوحة التحكم (channels.json)
@@ -504,4 +519,3 @@
 
 </body>
 </html>
-
