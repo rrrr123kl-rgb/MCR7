@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MCR7 - ULTRA SPORT | إشراف: محمد جواد</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- 1. إضافة مكتبات Video.js لتشغيل الداخلي m3u8/ts -->
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+
     <style>
         :root {
             --bg: #030712;
@@ -49,7 +54,7 @@
                 radial-gradient(circle at 90% 90%, rgba(255, 0, 85, 0.08) 0%, transparent 45%);
         }
 
-        /* نافذة الرمز السري الفخمة */
+        /* نافذة الرمز السري */
         #auth-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -125,7 +130,7 @@
 
         .container { max-width: 950px; margin: 0 auto; }
 
-        /* الهيدر المتطور */
+        /* الهيدر */
         .hero-header {
             background: var(--surface);
             backdrop-filter: blur(20px);
@@ -204,7 +209,7 @@
         }
         .theme-toggle:hover { border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(0, 240, 255, 0.2); }
 
-        /* 1. شاشة العرض الذكية */
+        /* 1. شاشة العرض الجديدة مع المشغل الداخلي */
         #player-section {
             background: var(--surface);
             backdrop-filter: blur(20px);
@@ -224,17 +229,39 @@
 
         .player-title { color: var(--neon-blue); font-weight: 800; font-size: 18px; margin: 0; }
 
-        .player-placeholder {
-            text-align: center;
-            padding: 45px 20px;
-            color: var(--text-muted);
-            border: 2px dashed var(--border);
+        /* 2. تنسيق المشغل الداخلي ليناسب الثيم النيوني */
+        .video-js.vjs-theme-neon {
             border-radius: 14px;
-            font-size: 15px;
-            font-weight: bold;
+            border: 2px solid var(--neon-blue);
+            overflow: hidden;
+            background: #000; /* خلفية سوداء قبل التحميل */
         }
 
-        /* 2. قسم التوقيت والساعة الديناميكية */
+        /* تغيير لون أشرطة التحكم لتناسب الثيم */
+        .vjs-theme-neon .vjs-control-bar {
+            background: rgba(0, 0, 0, 0.7); /* شريط تحكم شفاف */
+        }
+        .vjs-theme-neon .vjs-play-progress,
+        .vjs-theme-neon .vjs-volume-level {
+            background: var(--neon-blue);
+        }
+        .vjs-theme-neon .vjs-big-play-button {
+            background: rgba(0, 240, 255, 0.15); /* زر تشغيل كبير نيوني */
+            border: 2px solid var(--neon-blue);
+            border-radius: 50%;
+            line-height: 60px;
+            height: 60px;
+            width: 60px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+        }
+        .vjs-theme-neon .vjs-big-play-button:hover {
+            background: rgba(0, 240, 255, 0.4);
+        }
+
+        /* 3. قسم التوقيت */
         .timing-box {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -262,212 +289,10 @@
         }
         .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-        /* 3. شبكة القنوات العصرية */
+        /* 4. شبكة القنوات */
         .grid-cards { display: grid; grid-template-columns: 1fr; gap: 15px; }
 
         .match-card {
             background: var(--surface);
-            backdrop-filter: blur(14px);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .match-card:hover {
-            border-color: var(--neon-blue);
-            box-shadow: 0 8px 30px rgba(0, 240, 255, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .match-info { display: flex; align-items: center; gap: 15px; }
-
-        .live-pulse {
-            width: 12px; height: 12px;
-            background-color: var(--neon-blue);
-            border-radius: 50%;
-            box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.7);
-            animation: pulse 1.6s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 240, 255, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 240, 255, 0); }
-        }
-
-        .match-title { font-size: 17px; font-weight: 700; color: var(--text-main); }
-
-        .btn-action {
-            background: linear-gradient(135deg, var(--neon-blue), #0284c7);
-            color: #030712;
-            border: none;
-            padding: 9px 20px;
-            border-radius: 12px;
-            font-weight: 900;
-            font-family: 'Tajawal', sans-serif;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 13px;
-            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.25);
-        }
-        .btn-action:hover { filter: brightness(1.15); transform: scale(1.03); }
-
-        .btn-external {
-            background: linear-gradient(135deg, #6366f1, #4338ca);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-        }
-
-        .empty-msg {
-            text-align: center;
-            color: var(--text-muted);
-            padding: 30px;
-            background: var(--surface);
-            border-radius: 16px;
-            border: 1px dashed var(--border);
-        }
-    </style>
-</head>
-<body data-theme="dark">
-
-    <!-- نافذة الرمز -->
-    <div id="auth-overlay">
-        <div class="auth-card">
-            <div class="auth-icon">🔒</div>
-            <div class="auth-title">بوابة الدخول المحمية</div>
-            <div class="auth-subtitle">أدخل رمز المرور السري للمتابعة</div>
-            <input type="password" id="auth-code-input" class="auth-input" placeholder="••••" maxlength="6">
-            <button class="auth-btn" onclick="verifyCode()">دخول آمن ⚡</button>
-            <div id="auth-error-msg" class="auth-error">❌ رمز المرور غير صحيح!</div>
-        </div>
-    </div>
-
-    <div class="container">
-        <!-- الهيدر -->
-        <div class="hero-header">
-            <div class="logo-area">
-                <h1>⚡ MCR7 ULTRA LIVE</h1>
-                <div class="developer-tag">إشراف وتطوير: محمد جواد 👑</div>
-            </div>
-            <div class="header-actions">
-                <a href="https://t.me/drgg8" target="_blank" class="telegram-btn" title="قناتنا على تليجرام">
-                    <svg class="telegram-icon" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.44.53-.47-.02-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.25.38-.51 1.05-.78 4.11-1.79 6.85-2.97 8.22-3.55 3.91-1.67 4.72-1.96 5.25-1.97.12 0 .38.03.55.17.14.12.18.28.2.45z"/>
-                    </svg>
-                    <span>قناتنا تليجرام</span>
-                </a>
-                <button class="theme-toggle" onclick="toggleTheme()">🌓 الإضاءة</button>
-            </div>
-        </div>
-
-        <!-- 1. شاشة العرض الذكية -->
-        <div id="player-section">
-            <div class="player-header">
-                <h3 id="player-title" class="player-title">📺 شاشة العرض المباشر</h3>
-            </div>
-            <div id="player-box">
-                <div class="player-placeholder">👆 اختر أي قناة من الأسفل ليظهر زر التشغيل الخارجي الآمن الخاص بها هنا 🚀</div>
-            </div>
-        </div>
-
-        <!-- 2. قسم التوقيت -->
-        <div class="timing-box">
-            <div class="timing-item">
-                <div class="timing-label">توقيت النظام الرسمي</div>
-                <div class="timing-value" id="live-clock">--:--:--</div>
-            </div>
-            <div class="timing-item">
-                <div class="timing-label">حالة الحماية</div>
-                <div class="timing-value" style="color: var(--neon-green);">مشفر وآمن 🟢</div>
-            </div>
-            <div class="timing-item">
-                <div class="timing-label">وضع التشغيل</div>
-                <div class="timing-value" style="color: var(--neon-blue);">VIP ULTRA</div>
-            </div>
-        </div>
-
-        <!-- 3. قنوات البث -->
-        <div class="section-title">📺 قنوات البث الفضائي المباشر</div>
-        <div id="channels" class="grid-cards">
-            <div class="empty-msg">جاري تحميل القنوات بأمان...</div>
-        </div>
-    </div>
-
-    <script>
-        function verifyCode() {
-            const inputVal = document.getElementById('auth-code-input').value;
-            const errorMsg = document.getElementById('auth-error-msg');
-            if (inputVal === "2002") {
-                const overlay = document.getElementById('auth-overlay');
-                overlay.style.opacity = '0';
-                setTimeout(() => { overlay.style.display = 'none'; }, 400);
-            } else {
-                errorMsg.style.display = 'block';
-                document.getElementById('auth-code-input').value = '';
-            }
-        }
-
-        document.getElementById('auth-code-input').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') verifyCode();
-        });
-
-        setInterval(() => {
-            document.getElementById('live-clock').innerText = new Date().toLocaleTimeString('ar-IQ');
-        }, 1000);
-
-        function toggleTheme() {
-            const body = document.body;
-            body.setAttribute("data-theme", body.getAttribute("data-theme") === "dark" ? "light" : "dark");
-        }
-
-        // اختيار القناة وعرض زر التشغيل الخارجي الآمن
-        function selectChannel(url, title) {
-            const playerBox = document.getElementById('player-box');
-            const titleElem = document.getElementById('player-title');
+            backdrop-filter: blur
             
-            titleElem.innerText = "🎯 القناة المختارة: " + title;
-            window.scrollTo({top: 0, behavior: 'smooth'});
-
-            playerBox.innerHTML = `
-                <div style="text-align:center; padding: 35px; background: rgba(0,0,0,0.35); border-radius: 16px; border: 1px solid var(--border);">
-                    <p style="color:var(--neon-yellow); font-weight:bold; font-size:18px; margin-bottom:20px;">جاهز للانتقال المشفر إلى: ${title}</p>
-                    <a href="${url}" target="_blank" rel="noopener noreferrer" class="btn-action btn-external" style="padding: 14px 32px; font-size:17px; display:inline-block; text-decoration:none;">🚀 اضغط هنا للتشغيل الخارجي الآمن ↗</a>
-                </div>
-            `;
-        }
-
-        // جلب القنوات من ملف الـ JSON خارجي بحماية
-        fetch('channels.json')
-            .then(res => res.json())
-            .then(data => {
-                let output = '';
-                if(!data || data.length === 0) { 
-                    output = '<div class="empty-msg">لا توجد قنوات مضافة حالياً</div>'; 
-                } else {
-                    data.forEach(item => {
-                        let link = item.link || item.url || '#';
-                        let title = item.name || item.title || 'قناة';
-                        output += `
-                            <div class="match-card">
-                                <div class="match-info">
-                                    <div class="live-pulse"></div>
-                                    <span class="match-title">${title}</span>
-                                </div>
-                                <div class="actions">
-                                    <button class="btn-action" onclick="selectChannel('${link}', '${title}')">اختر القناة</button>
-                                </div>
-                            </div>
-                        `;
-                    });
-                }
-                document.getElementById('channels').innerHTML = output;
-            }).catch(() => { document.getElementById('channels').innerHTML = '<div class="empty-msg">خطأ في تحميل بيانات القنوات</div>'; });
-    </script>
-
-</body>
-</html>
-
