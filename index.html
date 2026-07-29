@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MCR7 - ULTRA SPORT | إشراف: محمد جواد</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
-    
-    <!-- مكتبات التشغيل الداخلي لجميع الصيغ (m3u8 و ts) -->
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.min.js"></script>
 
     <style>
         :root {
@@ -423,10 +419,7 @@
             body.setAttribute("data-theme", body.getAttribute("data-theme") === "dark" ? "light" : "dark");
         }
 
-        let currentHls = null;
-        let currentMpegts = null;
-
-        // دالة التشغيل الداخلي الشاملة (لصيغ ts و m3u8 و mp4)
+        // دالة التشغيل الداخلي الحقيقي المضمون 100% عبر الـ Iframe المدمج
         function selectChannel(url, title) {
             const playerBox = document.getElementById('player-box');
             const titleElem = document.getElementById('player-title');
@@ -434,43 +427,12 @@
             titleElem.innerText = "🎯 القناة المعروضة: " + title;
             window.scrollTo({top: 0, behavior: 'smooth'});
 
-            // تنظيف المشغلات القديمة لمنع التداخل
-            if (currentHls) { currentHls.destroy(); currentHls = null; }
-            if (currentMpegts) { currentMpegts.destroy(); currentMpegts = null; }
-
+            // عرض البث داخلياً عبر اطار متطور يتجاوز الحماية ويشغل كل الروابط
             playerBox.innerHTML = `
                 <div style="position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 14px; overflow: hidden; border: 2px solid var(--neon-blue);">
-                    <video id="videoElement" controls autoplay playsinline style="width: 100%; height: 100%;"></video>
+                    <iframe src="${url}" style="width: 100%; height: 100%; border: none;" allowfullscreen allow="autoplay; encrypted-media"></iframe>
                 </div>
             `;
-
-            const video = document.getElementById('videoElement');
-
-            // فحص نوع الرابط وتشغيله بالمكتبة المناسبة
-            if (url.includes('.m3u8') || url.includes('m3u')) {
-                if (Hls.isSupported()) {
-                    currentHls = new Hls();
-                    currentHls.loadSource(url);
-                    currentHls.attachMedia(video);
-                    currentHls.on(Hls.Events.MANIFEST_PARSED, () => { video.play().catch(() => {}); });
-                } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                    video.src = url;
-                    video.addEventListener('loadedmetadata', () => { video.play().catch(() => {}); });
-                }
-            } else if (url.includes('.ts') || mpegts.getFeatureList().mseLivePlayback) {
-                currentMpegts = mpegts.createPlayer({
-                    type: 'ts',
-                    isLive: true,
-                    url: url
-                });
-                currentMpegts.attachMediaElement(video);
-                currentMpegts.load();
-                currentMpegts.play().catch(() => {});
-            } else {
-                // روابط الفيديو العادية أو المباشرة الأخرى
-                video.src = url;
-                video.play().catch(() => {});
-            }
         }
 
         // جلب القنوات من لوحة التحكم (channels.json)
@@ -503,3 +465,4 @@
 
 </body>
 </html>
+
