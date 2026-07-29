@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MCR7 - ULTRA SPORT | إشراف: محمد جواد</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" display="swap" rel="stylesheet">
-    
-    <!-- استدعاء مكتبة المشغل الاحترافي Clappr -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-hlsjs-playback@latest/dist/clappr-hlsjs-playback.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -54,7 +50,7 @@
                 radial-gradient(circle at 90% 90%, rgba(255, 0, 85, 0.08) 0%, transparent 45%);
         }
 
-        /* نافذة الرمز السري الفخمة */
+        /* نافذة الرمز السري */
         #auth-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -76,15 +72,9 @@
             width: 100%;
             max-width: 420px;
             text-align: center;
-            animation: fadeInScale 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @keyframes fadeInScale {
-            0% { transform: scale(0.85); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .auth-icon { font-size: 55px; margin-bottom: 15px; text-shadow: 0 0 25px rgba(0, 240, 255, 0.6); }
+        .auth-icon { font-size: 55px; margin-bottom: 15px; }
         .auth-title { color: var(--neon-blue); font-size: 24px; font-weight: 900; margin-bottom: 8px; }
         .auth-subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 25px; }
         
@@ -117,7 +107,6 @@
             font-family: 'Tajawal', sans-serif;
             box-shadow: 0 4px 20px rgba(0, 240, 255, 0.4);
         }
-        .auth-btn:hover { filter: brightness(1.15); transform: translateY(-2px); }
 
         .auth-error {
             color: var(--neon-pink);
@@ -125,12 +114,11 @@
             font-weight: 700;
             margin-top: 15px;
             display: none;
-            text-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
         }
 
         .container { max-width: 950px; margin: 0 auto; }
 
-        /* الهيدر المتطور */
+        /* الهيدر */
         .hero-header {
             background: var(--surface);
             backdrop-filter: blur(20px);
@@ -167,7 +155,6 @@
             color: var(--neon-pink);
             font-weight: 700;
             margin-top: 4px;
-            text-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
         }
 
         .header-actions { display: flex; align-items: center; gap: 12px; }
@@ -183,18 +170,8 @@
             border-radius: 12px;
             font-weight: 800;
             font-size: 13px;
-            box-shadow: 0 4px 15px rgba(34, 158, 217, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            animation: tgPulse 2s infinite;
         }
-        .telegram-btn:hover { filter: brightness(1.15); transform: translateY(-2px); }
         .telegram-icon { width: 18px; height: 18px; fill: #ffffff; }
-
-        @keyframes tgPulse {
-            0% { box-shadow: 0 0 0 0 rgba(34, 158, 217, 0.4); }
-            70% { box-shadow: 0 0 0 8px rgba(34, 158, 217, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(34, 158, 217, 0); }
-        }
 
         .theme-toggle {
             background: transparent;
@@ -207,53 +184,22 @@
             font-family: 'Tajawal', sans-serif;
             font-size: 13px;
         }
-        .theme-toggle:hover { border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(0, 240, 255, 0.2); }
 
-        /* شاشة العرض الذكية */
-        #player-section {
-            background: var(--surface);
-            backdrop-filter: blur(20px);
-            border: 2px solid var(--neon-blue);
-            border-radius: 22px;
-            padding: 22px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 40px rgba(0, 240, 255, 0.18);
-        }
-
-        .player-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .player-title { color: var(--neon-blue); font-weight: 800; font-size: 18px; margin: 0; }
-
-        .player-placeholder {
+        /* تنبيه إرشادي للمستخدم */
+        .notice-box {
+            background: rgba(0, 240, 255, 0.08);
+            border: 1px solid var(--neon-blue);
+            border-radius: 16px;
+            padding: 15px 20px;
             text-align: center;
-            padding: 45px 20px;
-            color: var(--text-muted);
-            border: 2px dashed var(--border);
-            border-radius: 14px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: bold;
+            color: var(--neon-blue);
+            margin-bottom: 25px;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
         }
 
-        #player-box {
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: #000;
-            border-radius: 14px;
-            overflow: hidden;
-            border: 2px solid var(--neon-blue);
-        }
-        #player-box > div, #player-box iframe {
-            width: 100% !important;
-            height: 100% !important;
-            border: none;
-        }
-
-        /* قسم التوقيت */
+        /* صندوق التوقيت */
         .timing-box {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -296,42 +242,37 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         }
 
-        .match-card:hover {
-            border-color: var(--neon-blue);
-            box-shadow: 0 8px 30px rgba(0, 240, 255, 0.15);
-            transform: translateY(-2px);
-        }
-
         .match-info { display: flex; align-items: center; gap: 15px; }
 
         .live-pulse {
             width: 12px; height: 12px;
-            background-color: var(--neon-blue);
+            background-color: var(--neon-green);
             border-radius: 50%;
-            box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.7);
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
             animation: pulse 1.6s infinite;
         }
 
         @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 240, 255, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 240, 255, 0); }
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
         .match-title { font-size: 17px; font-weight: 700; color: var(--text-main); }
 
         .btn-action {
-            background: linear-gradient(135deg, var(--neon-blue), #0284c7);
+            background: linear-gradient(135deg, var(--neon-green), #059669);
             color: #030712;
             border: none;
-            padding: 9px 20px;
+            padding: 10px 22px;
             border-radius: 12px;
             font-weight: 900;
             font-family: 'Tajawal', sans-serif;
             cursor: pointer;
             text-decoration: none;
-            font-size: 13px;
-            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.25);
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            display: inline-block;
         }
         .btn-action:hover { filter: brightness(1.15); transform: scale(1.03); }
 
@@ -377,19 +318,12 @@
             </div>
         </div>
 
-        <!-- 1. شاشة العرض الذكية -->
-        <div id="player-section">
-            <div class="player-header">
-                <h3 id="player-title" class="player-title">📺 شاشة العرض المباشر</h3>
-            </div>
-            <div id="player-container-wrapper">
-                <div id="player-box">
-                    <div class="player-placeholder" style="display:flex; align-items:center; justify-content:center; height:100%;">👆 اختر أي قناة من الأسفل ليتم تشغيلها داخلياً فوراً 🚀</div>
-                </div>
-            </div>
+        <!-- تنبيه توضيحي -->
+        <div class="notice-box">
+            💡 ملاحظة تقنية: لضمان تشغيل البث المباشر بدون شاشة سوداء على الهواتف، اضغط على زر التشغيل لتفتح القناة فوراً وبجودة فائقة 🚀.
         </div>
 
-        <!-- 2. قسم التوقيت -->
+        <!-- التوقيت -->
         <div class="timing-box">
             <div class="timing-item">
                 <div class="timing-label">توقيت النظام الرسمي</div>
@@ -405,7 +339,7 @@
             </div>
         </div>
 
-        <!-- 3. قنوات البث -->
+        <!-- قنوات البث -->
         <div class="section-title">📺 قنوات البث الفضائي المباشر</div>
         <div id="channels" class="grid-cards">
             <div class="empty-msg">جاري تحميل القنوات بأمان...</div>
@@ -413,8 +347,6 @@
     </div>
 
     <script>
-        let currentInstance = null;
-
         function verifyCode() {
             const inputVal = document.getElementById('auth-code-input').value;
             const errorMsg = document.getElementById('auth-error-msg');
@@ -441,55 +373,7 @@
             body.setAttribute("data-theme", body.getAttribute("data-theme") === "dark" ? "light" : "dark");
         }
 
-        // نظام التشغيل المزدوج الذكي: يدعم الروابط المباشرة وصفحات الويب بالكامل بدون شاشة سوداء
-        function selectChannel(url, title) {
-            const titleElem = document.getElementById('player-title');
-            titleElem.innerText = "🎯 القناة المعروضة: " + title;
-            window.scrollTo({top: 0, behavior: 'smooth'});
-
-            if (currentInstance) {
-                if (typeof currentInstance.destroy === 'function') {
-                    currentInstance.destroy();
-                }
-                currentInstance = null;
-            }
-
-            const wrapper = document.getElementById('player-container-wrapper');
-            wrapper.innerHTML = '<div id="player-box"></div>';
-
-            // التحقق مما إذا كان الرابط رابط فيديو مباشر (m3u8 أو mp4 أو ts) أو رابط صفحة ويب
-            if (url.includes('.m3u8') || url.includes('.ts') || url.includes('.mp4')) {
-                try {
-                    currentInstance = new Clappr.Player({
-                        source: url,
-                        plugins: [HlsjsPlayback],
-                        parentId: "#player-box",
-                        autoPlay: true,
-                        height: '100%',
-                        width: '100%',
-                        playback: {
-                            hlsjsConfig: {
-                                xhrSetup: function (xhr, url) {
-                                    xhr.withCredentials = false;
-                                }
-                            }
-                        }
-                    });
-                } catch (e) {
-                    fallbackToIframe(url);
-                }
-            } else {
-                // إذا كان الرابط صفحة ويب (مثل روابط البث التي تأتي من ياسين أو المواقع الأخرى)، سيتم عرضها فوراً عبر الإطار الآمن
-                fallbackToIframe(url);
-            }
-        }
-
-        function fallbackToIframe(url) {
-            const playerBox = document.getElementById('player-box');
-            playerBox.innerHTML = `<iframe src="${url}" style="width:100%; height:100%; border:none;" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
-        }
-
-        // جلب القنوات من لوحة التحكم (channels.json)
+        // جلب القنوات من ملف الـ JSON وعرضها بزر تشغيل مباشر يفتح القناة بدون شاشة سوداء
         fetch('channels.json')
             .then(res => res.json())
             .then(data => {
@@ -507,7 +391,7 @@
                                     <span class="match-title">${title}</span>
                                 </div>
                                 <div class="actions">
-                                    <button class="btn-action" onclick="selectChannel('${link}', '${title}')">تشغيل القناة</button>
+                                    <a href="${link}" target="_blank" class="btn-action">تشغيل البث 📺</a>
                                 </div>
                             </div>
                         `;
@@ -519,3 +403,4 @@
 
 </body>
 </html>
+
