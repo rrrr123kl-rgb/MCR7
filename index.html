@@ -373,7 +373,7 @@
             body.setAttribute("data-theme", body.getAttribute("data-theme") === "dark" ? "light" : "dark");
         }
 
-        // جلب القنوات من ملف الـ JSON وعرضها بزر التشغيل
+        // جلب القنوات وعرضها في الموقع
         fetch('channels.json')
             .then(res => res.json())
             .then(data => {
@@ -382,8 +382,8 @@
                     output = '<div class="empty-msg">لا توجد قنوات مضافة حالياً</div>'; 
                 } else {
                     data.forEach(item => {
-                        let link = item.link || item.url || '#';
-                        let title = item.name || item.title || 'قناة';
+                        let link = item.url || item.link || '#';
+                        let title = item.name || 'قناة';
                         output += `
                             <div class="match-card">
                                 <div class="match-info">
@@ -403,3 +403,4 @@
 
 </body>
 </html>
+
