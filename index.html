@@ -373,7 +373,7 @@
             body.setAttribute("data-theme", body.getAttribute("data-theme") === "dark" ? "light" : "dark");
         }
 
-        // جلب القنوات من ملف الـ JSON وعرضها بزر تشغيل مباشر يفتح القناة بدون شاشة سوداء
+        // جلب القنوات من ملف الـ JSON وعرضها بزر التشغيل
         fetch('channels.json')
             .then(res => res.json())
             .then(data => {
@@ -403,4 +403,3 @@
 
 </body>
 </html>
-
