@@ -320,7 +320,7 @@
 
         <!-- تنبيه توضيحي -->
         <div class="notice-box">
-            💡 ملاحظة تقنية: لضمان تشغيل البث المباشر بدون شاشة سوداء على الهواتف، اضغط على زر التشغيل لتفتح القناة فوراً وبجودة فائقة 🚀.
+            💡 ملاحظة تقنية: لضمان تشغيل البث المباشر بدون شاشة سوداء، اضغط على زر التشغيل لتفتح القناة فوراً وبجودة فائقة 🚀.
         </div>
 
         <!-- التوقيت -->
@@ -373,8 +373,8 @@
             body.setAttribute("data-theme", body.getAttribute("data-theme") === "dark" ? "light" : "dark");
         }
 
-        // جلب القنوات وعرضها في الموقع
-        fetch('channels.json')
+        // جلب القنوات من ملف الـ JSON وتأمين تمرير البيانات والحماية
+        fetch('channels.json?' + Date.now())
             .then(res => res.json())
             .then(data => {
                 let output = '';
@@ -383,7 +383,8 @@
                 } else {
                     data.forEach(item => {
                         let link = item.url || item.link || '#';
-                        let title = item.name || 'قناة';
+                        let title = item.name || item.title || 'قناة';
+                        
                         output += `
                             <div class="match-card">
                                 <div class="match-info">
@@ -403,4 +404,3 @@
 
 </body>
 </html>
-
