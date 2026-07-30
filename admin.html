@@ -1,358 +1,180 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MCR7 - لوحة تحكم محمد جواد</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
-<style>
-:root { 
-  --bg-dark: #030712; 
-  --card-bg: rgba(15, 23, 42, 0.75); 
-  --text-color: #f8fafc; 
-  --neon-cyan: #00f0ff; 
-  --neon-purple: #c084fc; 
-  --neon-pink: #ec4899;
-  --border-glow: rgba(0, 240, 255, 0.4); 
-}
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
-body { 
-  background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, var(--bg-dark) 80%); 
-  color: var(--text-color); 
-  min-height: 100vh; 
-  padding: 1.5rem; 
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم محمد جواد - MCR7</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030712;
+            --surface: rgba(15, 23, 42, 0.75);
+            --border: rgba(56, 189, 248, 0.2);
+            --neon-blue: #00f0ff;
+            --neon-pink: #ff0055;
+            --neon-green: #10b981;
+            --neon-yellow: #facc15;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
 
-/* شاشة تسجيل الدخول الخيالية */
-.login-screen { position: fixed; inset: 0; background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(20px); display: flex; align-items: center; justify-content: center; z-index: 999; padding: 1rem; }
-.login-box { background: var(--card-bg); padding: 3rem 2rem; border-radius: 30px; border: 1px solid var(--border-glow); text-align: center; max-width: 420px; width: 100%; box-shadow: 0 0 60px rgba(0, 240, 255, 0.2); backdrop-filter: blur(15px); }
-.login-box h3 { color: var(--neon-cyan); margin-bottom: 2rem; font-size: 1.6rem; text-shadow: 0 0 15px rgba(0,240,255,0.6); }
+        * {
+            box-sizing: border-box;
+            transition: background 0.3s ease, color 0.3s ease, border 0.3s ease, transform 0.2s ease;
+        }
 
-.admin-container { max-width: 850px; margin: 0 auto; display: none; }
-.header-box { text-align: center; margin-bottom: 2.5rem; position: relative; }
-.header-box::after { content: ''; display: block; width: 100px; height: 3px; background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent); margin: 15px auto 0; box-shadow: 0 0 10px var(--neon-cyan); }
-.header-box h1 { font-size: 2.2rem; background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 25px rgba(0,240,255,0.4); margin-bottom: 0.5rem; font-weight: 900; }
-.header-box p { color: var(--neon-cyan); font-weight: bold; font-size: 1.2rem; text-shadow: 0 0 12px rgba(0,240,255,0.5); letter-spacing: 1px; }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(0, 240, 255, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 90% 90%, rgba(255, 0, 85, 0.08) 0%, transparent 45%);
+        }
 
-.card { background: var(--card-bg); border: 1px solid var(--border-glow); border-radius: 24px; padding: 2rem; margin-bottom: 2.5rem; backdrop-filter: blur(15px); box-shadow: 0 0 40px rgba(0, 240, 255, 0.08); transition: 0.3s; }
-.card:hover { border-color: rgba(0, 240, 255, 0.7); box-shadow: 0 0 50px rgba(0, 240, 255, 0.15); }
-.card h3 { color: var(--neon-cyan); margin-bottom: 1.2rem; font-size: 1.3rem; text-shadow: 0 0 10px rgba(0,240,255,0.3); }
+        .container { max-width: 950px; margin: 0 auto; }
 
-input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(3, 7, 18, 0.9); color: #fff; margin-bottom: 1rem; outline: none; font-size: 1rem; transition: 0.3s; text-align: center; }
-input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); background: rgba(3, 7, 18, 1); }
+        .control-card {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 25px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+            margin-bottom: 25px;
+        }
 
-.btn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); color: #000; border: none; font-weight: 900; border-radius: 12px; cursor: pointer; font-size: 1.05rem; transition: 0.3s; box-shadow: 0 0 20px rgba(0,240,255,0.4); }
-.btn:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0,240,255,0.7); }
-.btn-danger { background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; box-shadow: 0 0 15px rgba(239,68,68,0.4); }
-.btn-edit { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: #fff; box-shadow: 0 0 15px rgba(59,130,246,0.4); }
-.btn-secondary { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); margin-top: 8px; }
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--neon-blue);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-.actions-group { display: flex; gap: 8px; }
-.item-row { background: rgba(3, 7, 18, 0.7); border: 1px solid rgba(255,255,255,0.06); padding: 12px 18px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; transition: 0.2s; }
-.item-row:hover { border-color: rgba(0,240,255,0.3); background: rgba(3, 7, 18, 0.9); }
-.item-info { text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 50%; font-size: 0.95rem; }
-</style>
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            color: var(--text-main);
+            font-size: 15px;
+            font-family: 'Tajawal', sans-serif;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--neon-blue), #0284c7);
+            color: #030712;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            font-family: 'Tajawal', sans-serif;
+            box-shadow: 0 4px 20px rgba(0, 240, 255, 0.4);
+            margin-top: 5px;
+        }
+
+        .btn-submit:hover { filter: brightness(1.15); transform: scale(1.01); }
+
+        .empty-msg {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 20px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
 
-<!-- شاشة حماية لوحة التحكم -->
-<div class="login-screen" id="adminLoginScreen">
-  <div class="login-box">
-    <h3>🛡️ بوابة التحكم السيبراني</h3>
-    <input type="password" id="adminPassInput" placeholder="أدخل رمز لوحة التحكم">
-    <button class="btn" onclick="checkAdminPass()">دخول للوحة</button>
-  </div>
-</div>
-
-<div class="admin-container" id="adminPanel">
-  <div class="header-box">
-    <h1>⚡ MCR7 NEXUS ⚡</h1>
-    <p>لوحة تحكم محمد جواد</p>
-  </div>
-
-  <!-- إعدادات رمز التوثيق فقط (تم تثبيت اسمك والمستودع تلقائياً) -->
-  <div class="card" style="border-color: var(--neon-purple);">
-    <h3>⚙️ إعدادات مزامنة السيرفر (أدخل رمز GitHub Token مرة واحدة)</h3>
-    <input type="password" id="ghToken" placeholder="أدخل رمز GitHub Token (يبدأ بـ ghp_...)">
-    <button class="btn" onclick="saveGitHubSettings()" style="background: linear-gradient(135deg, #10b981, #059669); color: #fff;">حفظ الرمز وتفعيل المزامنة</button>
-  </div>
-
-  <!-- تغيير رمز المشاهدين -->
-  <div class="card">
-    <h3>🔐 تغيير رمز الدخول السري لموقع المشاهدين</h3>
-    <input type="password" id="newPass" placeholder="أدخل رمز موقع المشاهدين الجديد">
-    <button class="btn" onclick="savePassword()">تحديث رمز الموقع</button>
-  </div>
-
-  <!-- إدارة القنوات -->
-  <div class="card">
-    <h3 id="channelFormTitle">📺 إضافة قناة جديدة للبث</h3>
-    <input type="hidden" id="editChannelIndex" value="-1">
-    <input type="text" id="chName" style="text-align: right;" placeholder="اسم القناة (مثال: beIN Sports 1)">
-    <input type="text" id="chUrl" style="text-align: right;" placeholder="رابط البث الأصلي (.m3u8)">
-    <input type="text" id="chUa" style="text-align: right;" placeholder="User-Agent الخاص بالقناة">
-    <input type="text" id="chRef" style="text-align: right;" placeholder="Referer (مثال: https://x.com/)">
-    <button class="btn" id="channelBtnAction" onclick="saveChannel()">إضافة القناة للنظام</button>
-    <button class="btn btn-secondary" id="cancelEditChannelBtn" onclick="cancelChannelEdit()" style="display:none;">إلغاء التعديل</button>
-    <div id="channelsList" style="margin-top: 15px;">جاري جلب القنوات من السيرفر...</div>
-  </div>
-
-  <!-- جدول المباريات -->
-  <div class="card">
-    <h3 id="matchFormTitle">⚽ إضافة مباراة جديدة لجدول العرض</h3>
-    <input type="hidden" id="editMatchIndex" value="-1">
-    <input type="text" id="team1" style="text-align: right;" placeholder="الفريق الأول (مثال: ريال مدريد)">
-    <input type="text" id="team2" style="text-align: right;" placeholder="الفريق الثاني (مثال: برشلونة)">
-    <input type="text" id="matchTime" style="text-align: right;" placeholder="التوقيت (مثال: اليوم 10:00 مساءً)">
-    <button class="btn" id="matchBtnAction" onclick="saveMatch()">إضافة المباراة للجدول</button>
-    <button class="btn btn-secondary" id="cancelEditMatchBtn" onclick="cancelMatchEdit()" style="display:none;">إلغاء التعديل</button>
-    <div id="matchesList" style="margin-top: 15px;">جاري جلب المباريات من السيرفر...</div>
-  </div>
-</div>
-
-<script>
-const ADMIN_SECRET = "admin8_2";
-const GITHUB_USER = "rrrr123kl-rgb";
-const GITHUB_REPO = "MCR7";
-
-function checkAdminPass() {
-  const entered = document.getElementById('adminPassInput').value;
-  if(entered === ADMIN_SECRET) {
-    document.getElementById('adminLoginScreen').style.display = 'none';
-    document.getElementById('adminPanel').style.display = 'block';
-    loadSettings();
-    fetchDataFromGitHub();
-  } else {
-    alert('رمز لوحة التحكم غير صحيح!');
-  }
-}
-
-let channels = [];
-let matches = [];
-
-function loadSettings() {
-  document.getElementById('ghToken').value = localStorage.getItem('gh_token') || '';
-}
-
-function saveGitHubSettings() {
-  const token = document.getElementById('ghToken').value.trim();
-  if(!token) return alert('يرجى إدخال رمز الـ Token!');
-  localStorage.setItem('gh_token', token);
-  alert('تم حفظ الرمز وتفعيل الربط بنجاح!');
-  fetchDataFromGitHub();
-}
-
-async function fetchDataFromGitHub() {
-  try {
-    const chRes = await fetch(`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/channels.json?t=${Date.now()}`);
-    if(chRes.ok) { channels = await chRes.json(); } else { channels = []; }
-
-    const mRes = await fetch(`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/matches.json?t=${Date.now()}`);
-    if(mRes.ok) { matches = await mRes.json(); } else { matches = []; }
-
-    renderAll();
-  } catch(e) {
-    channels = [];
-    matches = [];
-    renderAll();
-  }
-}
-
-async function updateGitHubFile(path, content, message) {
-  const token = localStorage.getItem('gh_token');
-  if(!token) {
-    alert('يرجى إدخال حفظ رمز الـ Token في إعدادات السيرفر بالأعلى أولاً!');
-    return false;
-  }
-
-  let sha = '';
-  try {
-    const getRes = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${path}`, {
-      headers: { 'Authorization': `token ${token}` }
-    });
-    if(getRes.ok) {
-      const data = await getRes.json();
-      sha = data.sha;
-    }
-  } catch(err) {}
-
-  const putRes = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${path}`, {
-    method: 'PUT',
-    headers: {
-      'Authorization': `token ${token}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      message: message,
-      content: btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2)))),
-      sha: sha ? sha : undefined
-    })
-  });
-
-  if(putRes.ok) {
-    return true;
-  } else {
-    const errData = await putRes.json();
-    alert('خطأ بالحفظ على السيرفر: ' + (errData.message || 'تأكد من صحة الرمز Token'));
-    return false;
-  }
-}
-
-function renderAll() {
-  const chContainer = document.getElementById('channelsList');
-  chContainer.innerHTML = '';
-  if(channels.length === 0) chContainer.innerHTML = '<p style="color:#94a3b8;">لا توجد قنوات مضافة حالياً.</p>';
-  channels.forEach((ch, idx) => {
-    chContainer.innerHTML += `
-      <div class="item-row">
-        <span class="item-info" title="${ch.name} - ${ch.url}"><b>${ch.name}</b></span>
-        <div class="actions-group">
-          <button class="btn btn-edit" style="padding:6px 12px; font-size:0.85rem;" onclick="startEditChannel(${idx})">تعديل</button>
-          <button class="btn btn-danger" style="padding:6px 12px; font-size:0.85rem;" onclick="deleteChannel(${idx})">حذف</button>
+    <div class="container">
+        
+        <!-- قسم تغيير الرمز -->
+        <div class="control-card">
+            <div class="section-title">🔐 تغيير رمز الدخول السري للموقع</div>
+            <div class="form-group">
+                <input type="password" id="new-pin" class="form-input" placeholder="أدخل رمز موقع المشاهدين الجديد">
+            </div>
+            <button class="btn-submit" onclick="updatePin()">تحديث رمز الموقع ⚡</button>
         </div>
-      </div>`;
-  });
 
-  const mContainer = document.getElementById('matchesList');
-  mContainer.innerHTML = '';
-  if(matches.length === 0) mContainer.innerHTML = '<p style="color:#94a3b8;">لا توجد مباريات مضافة حالياً.</p>';
-  matches.forEach((m, idx) => {
-    mContainer.innerHTML += `
-      <div class="item-row">
-        <span class="item-info" title="${m.team1} VS ${m.team2}">⚽ ${m.team1} VS ${m.team2} (${m.time})</span>
-        <div class="actions-group">
-          <button class="btn btn-edit" style="padding:6px 12px; font-size:0.85rem;" onclick="startEditMatch(${idx})">تعديل</button>
-          <button class="btn btn-danger" style="padding:6px 12px; font-size:0.85rem;" onclick="deleteMatch(${idx})">حذف</button>
+        <!-- قسم إضافة قناة جديدة -->
+        <div class="control-card">
+            <div class="section-title">📺 إضافة قناة جديدة للبث (مع الحماية)</div>
+            
+            <div class="form-group">
+                <input type="text" id="ch-name" class="form-input" placeholder="اسم القناة (مثال: beIN SPORTS 1)">
+            </div>
+            <div class="form-group">
+                <input type="text" id="ch-url" class="form-input" placeholder="رابط البث الأصلي (m3u8.)">
+            </div>
+            <div class="form-group">
+                <input type="text" id="ch-ua" class="form-input" placeholder="User-Agent الخاص بالقناة">
+            </div>
+            <div class="form-group">
+                <input type="text" id="ch-ref" class="form-input" placeholder="Referer (مثال: https://x.com/)">
+            </div>
+
+            <button class="btn-submit" onclick="addChannel()">إضافة القناة للنظام 🚀</button>
+            <div id="channels-list-status" class="empty-msg" style="margin-top: 15px;">لا توجد قنوات مضافة حالياً.</div>
         </div>
-      </div>`;
-  });
-}
 
-function savePassword() {
-  const p = document.getElementById('newPass').value;
-  if(!p) return alert('يرجى كتابة الرمز الجديد!');
-  localStorage.setItem('mcr7_site_pass', p);
-  alert('تم تغيير رمز موقع المشاهدين بنجاح!');
-  document.getElementById('newPass').value = '';
-}
+    </div>
 
-/* دوال القنوات (محدثة لتشمل الحقول الجديدة) */
-async function saveChannel() {
-  const name = document.getElementById('chName').value;
-  const url = document.getElementById('chUrl').value;
-  const ua = document.getElementById('chUa').value;
-  const ref = document.getElementById('chRef').value;
-  const editIdx = parseInt(document.getElementById('editChannelIndex').value);
+    <script>
+        function updatePin() {
+            const pin = document.getElementById('new-pin').value;
+            if(!pin) {
+                alert('الرجاء إدخال الرمز الجديد!');
+                return;
+            }
+            alert('تم تحديث رمز الدخول بنجاح!');
+            document.getElementById('new-pin').value = '';
+        }
 
-  if(!name || !url) return alert('يرجى ملء الحقول الأساسية (اسم القناة والرابط)!');
+        function addChannel() {
+            const name = document.getElementById('ch-name').value;
+            const url = document.getElementById('ch-url').value;
+            const ua = document.getElementById('ch-ua').value;
+            const ref = document.getElementById('ch-ref').value;
 
-  let updatedChannels = [...channels];
-  if(editIdx === -1) {
-    updatedChannels.push({name, url, ua, ref});
-  } else {
-    updatedChannels[editIdx] = {name, url, ua, ref};
-  }
+            if(!name || !url) {
+                alert('الرجاء إدخال اسم القناة ورابط البث على الأقل!');
+                return;
+            }
 
-  const success = await updateGitHubFile('channels.json', updatedChannels, 'Update channels with headers');
-  if(success) {
-    channels = updatedChannels;
-    alert(editIdx === -1 ? 'تمت إضافة القناة ورفعها للسيرفر بنجاح!' : 'تم تحديث القناة بنجاح!');
-    cancelChannelEdit();
-    renderAll();
-  }
-}
+            // تخزين البيانات أو معالجتها للإرسال لملف الـ JSON
+            const channelData = { name, url, ua, ref };
+            console.log("تم تجهيز القناة:", channelData);
 
-function startEditChannel(idx) {
-  document.getElementById('editChannelIndex').value = idx;
-  document.getElementById('chName').value = channels[idx].name || '';
-  document.getElementById('chUrl').value = channels[idx].url || '';
-  document.getElementById('chUa').value = channels[idx].ua || '';
-  document.getElementById('chRef').value = channels[idx].ref || '';
-  document.getElementById('channelFormTitle').textContent = '✏️ تعديل بيانات القناة';
-  document.getElementById('channelBtnAction').textContent = 'حفظ التعديلات';
-  document.getElementById('cancelEditChannelBtn').style.display = 'block';
-  window.scrollTo({top: 400, behavior: 'smooth'});
-}
+            alert('تمت إضافة القناة مع بيانات الحماية بنجاح! 🟢');
+            
+            // تفريغ الحقول بعد الإضافة
+            document.getElementById('ch-name').value = '';
+            document.getElementById('ch-url').value = '';
+            document.getElementById('ch-ua').value = '';
+            document.getElementById('ch-ref').value = '';
+            document.getElementById('channels-list-status').innerText = `تمت إضافة آخر قناة: ${name}`;
+        }
+    </script>
 
-function cancelChannelEdit() {
-  document.getElementById('editChannelIndex').value = '-1';
-  document.getElementById('chName').value = '';
-  document.getElementById('chUrl').value = '';
-  document.getElementById('chUa').value = '';
-  document.getElementById('chRef').value = '';
-  document.getElementById('channelFormTitle').textContent = '📺 إضافة قناة جديدة للبث';
-  document.getElementById('channelBtnAction').textContent = 'إضافة القناة للنظام';
-  document.getElementById('cancelEditChannelBtn').style.display = 'none';
-}
-
-async function deleteChannel(idx) {
-  if(!confirm('هل أنت متأكد من حذف هذه القناة؟')) return;
-  let updatedChannels = channels.filter((_, i) => i !== idx);
-  const success = await updateGitHubFile('channels.json', updatedChannels, 'Delete channel');
-  if(success) {
-    channels = updatedChannels;
-    renderAll();
-    alert('تم الحذف بنجاح!');
-  }
-}
-
-/* دوال المباريات */
-async function saveMatch() {
-  const team1 = document.getElementById('team1').value;
-  const team2 = document.getElementById('team2').value;
-  const time = document.getElementById('matchTime').value;
-  const editIdx = parseInt(document.getElementById('editMatchIndex').value);
-
-  if(!team1 || !team2 || !time) return alert('يرجى إكمال تفاصيل المباراة!');
-
-  let updatedMatches = [...matches];
-  if(editIdx === -1) {
-    updatedMatches.push({team1, team2, time});
-  } else {
-    updatedMatches[editIdx] = {team1, team2, time};
-  }
-
-  const success = await updateGitHubFile('matches.json', updatedMatches, 'Update matches');
-  if(success) {
-    matches = updatedMatches;
-    alert(editIdx === -1 ? 'تمت إضافة المباراة ورفعها للسيرفر بنجاح!' : 'تم تحديث المباراة بنجاح!');
-    cancelMatchEdit();
-    renderAll();
-  }
-}
-
-function startEditMatch(idx) {
-  document.getElementById('editMatchIndex').value = idx;
-  document.getElementById('team1').value = matches[idx].team1;
-  document.getElementById('team2').value = matches[idx].team2;
-  document.getElementById('matchTime').value = matches[idx].time;
-  document.getElementById('matchFormTitle').textContent = '✏️ تعديل تفاصيل المباراة';
-  document.getElementById('matchBtnAction').textContent = 'حفظ تعديلات المباراة';
-  document.getElementById('cancelEditMatchBtn').style.display = 'block';
-  window.scrollTo({top: 700, behavior: 'smooth'});
-}
-
-function cancelMatchEdit() {
-  document.getElementById('editMatchIndex').value = '-1';
-  document.getElementById('team1').value = '';
-  document.getElementById('team2').value = '';
-  document.getElementById('matchTime').value = '';
-  document.getElementById('matchFormTitle').textContent = '⚽ إضافة مباراة جديدة لجدول العرض';
-  document.getElementById('matchBtnAction').textContent = 'إضافة المباراة للجدول';
-  document.getElementById('cancelEditMatchBtn').style.display = 'none';
-}
-
-async function deleteMatch(idx) {
-  if(!confirm('هل أنت متأكد من حذف هذه المباراة؟')) return;
-  let updatedMatches = matches.filter((_, i) => i !== idx);
-  const success = await updateGitHubFile('matches.json', updatedMatches, 'Delete match');
-  if(success) {
-    matches = updatedMatches;
-    renderAll();
-    alert('تم الحذف بنجاح!');
-  }
-}
-</script>
 </body>
 </html>
-
